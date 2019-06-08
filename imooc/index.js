@@ -91,7 +91,7 @@ function parseIndex(body) {
         var commentCount = $(footer).find(".right-info > div:nth-child(3) > em").text().trim();
         commentCount = commentCount.substr(0, commentCount.lastIndexOf("评论"));
 
-        console.log("recommendCount", recommendCount);
+        console.log("commentCount", commentCount);
 
         // 总体概况
         console.log(`一共解析出${atricles.length}篇文章,正在解析第${i+1}篇,标题: ${titile} 阅读量: ${readCount} 推荐量: ${recommendCount} 评论数: ${commentCount}`);

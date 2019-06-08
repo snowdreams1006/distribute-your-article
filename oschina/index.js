@@ -82,15 +82,14 @@ function readCookie() {
 function parseIndex(body) {
     var $ = cheerio.load(body);
 
-    // 已经登录会出现设置资料按钮,尚未登录会出现关注按钮
+    // 已经登录会出现设置资料按钮,尚未登录不会出现
     var settingBtn = $("#mainScreen .user-info a.setting-btn");
-    var followBtn = $("#mainScreen .user-info a.follow-btn");
 
-    var loginFlag = (settingBtn && settingBtn.text()) && (followBtn && !followBtn.text());
+    var loginFlag = settingBtn && settingBtn.text();
     if (loginFlag) {
         console.log("已经登录: " + settingBtn.text() + "->" + settingBtn.attr("href"));
     } else {
-        console.log("尚未登录: " + followBtn.text() + "->" + followBtn.attr("data-user-id"));
+        console.log("尚未登录: " + body);
     }
 
     // 解析文章基本信息
@@ -99,8 +98,8 @@ function parseIndex(body) {
         var article = atricles[i];
 
         var header = $(article).find("a.header");
-        var description = $(article).find("div.description");
-        var extra = $(article).find("div.extra");
+        var body = $(article).find("div.description");
+        var footer = $(article).find("div.extra");
 
         // 标题以及链接
         var titile = header.text().replace(/[原荐顶\s]/g, "");
@@ -110,15 +109,15 @@ function parseIndex(body) {
         console.log("href", href);
 
         // 内容概要
-        var content = $(description).find("p.line-clamp").text();
+        var content = $(body).find("p.line-clamp").text();
 
         console.log("content", content);
 
         // 阅读量以及评论量
-        var readCount = $(extra).find(".eye").parent().text().trim();
+        var readCount = $(footer).find(".eye").parent().text().trim();
         console.log("readCount", readCount);
 
-        var commentCount = $(extra).find(".comment").parent().text().trim();
+        var commentCount = $(footer).find(".comment").parent().text().trim();
         console.log("commentCount", commentCount);
 
         // 总体概况
