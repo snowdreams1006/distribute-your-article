@@ -48,28 +48,37 @@ function readCookie() {
  * 同步访问首页(自定义 cookie)
  */
 async function indexWithCookie(requestConfig) {
-    // 访问首页,解析出分页总数,依次遍历累加
-    requestConfig.qs = {
-        "page": 1
-    };
 
-    // 初次访问解析出分页总数,并不计数
-    var body = await syncRequest(requestConfig);
-
-    // 解析出分页总数,依次遍历访问累加
-    var total = parseIndex(body);
-    for (var i = 1; i <= total; i++) {
+    try {
+        // 访问首页,解析出分页总数,依次遍历累加
         requestConfig.qs = {
-            "page": i
+            "page": 1
         };
 
+        // 初次访问解析出分页总数,并不计数
         var body = await syncRequest(requestConfig);
 
-        parseCurrent(cheerio.load(body));
-    }
+        // 解析出分页总数,依次遍历访问累加
+        var total = parseIndex(body);
+        for (var i = 1; i <= total; i++) {
+            requestConfig.qs = {
+                "page": i
+            };
 
-    // 数据保存到本地
-    fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
+            body = await syncRequest(requestConfig);
+
+            // 数据保存到本地
+            fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.html`, body);
+
+            parseCurrent(cheerio.load(body));
+        }
+
+        // 数据保存到本地
+        fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
+
+    } catch (error) {
+        console.error("error", error);
+    }
 }
 
 /**

@@ -48,20 +48,28 @@ function readCookie() {
  * 同步访问首页(自定义 cookie)
  */
 async function indexWithCookie(requestConfig) {
-    // 解析出分页总数,依次遍历访问累加
-    var total = await parsePagenation();
-    for (var i = 1; i <= total; i++) {
-        requestConfig.qs = {
-            "page": i
-        };
+    try {
+        // 解析出分页总数,依次遍历访问累加
+        var total = await parsePagenation();
+        for (var i = 1; i <= total; i++) {
+            requestConfig.qs = {
+                "page": i
+            };
 
-        var body = await syncRequest(requestConfig);
+            var body = await syncRequest(requestConfig);
 
-        parseCurrent(cheerio.load(body));
+            // 数据保存到本地
+            fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.html`, body);
+
+            parseCurrent(cheerio.load(body));
+        }
+
+        // 数据保存到本地
+        fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
+
+    } catch (error) {
+        console.error("error", error);
     }
-
-    // 数据保存到本地
-    fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
 }
 
 /**
