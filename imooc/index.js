@@ -1,6 +1,11 @@
 var fs = require("fs");
+var moment = require("moment");
 var request = require("request");
 var cheerio = require("cheerio");
+
+// 日期格式化
+moment.locale("zh-cn");
+var now = moment();
 
 // 读取自定义 cookie
 var cookie = readCookie();
@@ -62,6 +67,9 @@ async function indexWithCookie(requestConfig) {
 
         parseCurrent(cheerio.load(body));
     }
+
+    // 数据保存到本地
+    fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
 }
 
 /**
@@ -126,7 +134,7 @@ function parsePagenation($) {
     var currentPage = $("#pagenation .page a.active.text-page-tag").text().trim() * 1;
     var lastPage = $("#pagenation .page a:nth-child(8)").attr("href");
     lastPage = (lastPage && (lastPage.substr(lastPage.lastIndexOf("=") + 1)) * 1) || currentPage;
-    
+
     return lastPage;
 }
 
@@ -171,6 +179,8 @@ function parseCurrent($) {
         console.log(`当前页面解析中,一共${atricles.length}篇文章,正在解析第${i+1}篇,标题: ${titile} 阅读量: ${readCount} 推荐量: ${recommendCount} 评论数: ${commentCount}`);
     }
 
-    // 当前页正在解析中
+    // 当前页解析完毕
+    console.log();
     console.log(`当前页面解析完毕,一共${result.atricles.length}篇文章, 阅读量: ${result.readCount} 推荐量: ${result.recommendCount} 评论数: ${result.commentCount}`);
+    console.log();
 }
