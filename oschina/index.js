@@ -286,8 +286,8 @@ function parseCurrent($) {
         }
 
         // 阅读量以及评论量
-        var readCount = ($(footer).find(".eye").parent().text().trim()) * 1;
-        var commentCount = ($(footer).find(".comment").parent().text().trim()) * 1;
+        var readCount = ($(footer).find(".eye").parent().text().trim()) * 1 || 0;
+        var commentCount = ($(footer).find(".comment").parent().text().trim()) * 1 || 0;
 
         // 文章汇总数据
         result.atricles.push({
@@ -301,8 +301,6 @@ function parseCurrent($) {
         // 当前页正在解析中
         console.log(`当前页面解析中,一共${atricles.length}篇文章,正在解析第${i+1}篇,标题: ${title} 阅读量: ${readCount} 评论数: ${commentCount}`);
     }
-
-    console.log("result",JSON.stringify(result));
 
     // 当前页解析完毕
     console.log();
