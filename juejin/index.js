@@ -17,7 +17,7 @@ console.log("cookie", cookie.jianshu);
 var requestConfig = {
     url: "https://juejin.im/user/582d5cb667f356006331e586/posts",
     qs: {
-        "page": 1
+
     },
     headers: {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36",
@@ -35,7 +35,7 @@ var result = {
 };
 
 // 模拟登录直接访问首页
-indexWithCookie();
+indexWithCookie(requestConfig);
 
 /**
  * 读取 cookie(自定义 cookie)
@@ -49,23 +49,49 @@ function readCookie() {
  */
 async function indexWithCookie(requestConfig) {
     try {
-        // 解析出分页总数,依次遍历访问累加
-        var total = await parsePagenation();
-        for (var i = 1; i <= total; i++) {
-            requestConfig.qs = {
-                "page": i
-            };
 
-            var body = await syncRequest(requestConfig);
-
-            // 数据保存到本地
-            fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.html`, body);
-
-            parseCurrent(cheerio.load(body));
-        }
+        // 初次访问解析出分页总数,并不计数
+        var body = await syncRequest(requestConfig);
 
         // 数据保存到本地
-        fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
+        fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.html`, body);
+
+        //默认规则分页查询
+        requestConfig.url = "https://timeline-merger-ms.juejin.im/v1/get_entry_by_self";
+        requestConfig.qs = {
+            "src": "web",
+            "uid": "582d5cb667f356006331e586",
+            "device_id": "1560005329014",
+            "token": "eyJhY2Nlc3NfdG9rZW4iOiJENVp4b2l6ajlUeEdmeGpxIiwicmVmcmVzaF90b2tlbiI6IlhZYWNvTEk5WUVxNHJpcUIiLCJ0b2tlbl90eXBlIjoibWFjIiwiZXhwaXJlX2luIjoyNTkyMDAwfQ%3D%3D",
+            "targetUid": "582d5cb667f356006331e586",
+            "type": "post",
+            "before": "",
+            "limit": "20",
+            "order": "createdAt"
+        };
+
+        body = await syncRequest(requestConfig);
+
+        // 数据保存到本地
+        fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}-${requestConfig.qs.before}.json`, body);
+
+        parseCurrent(body);
+
+        // for (var i = 1; i <= total; i++) {
+        //     requestConfig.qs = {
+        //         "page": i
+        //     };
+
+        //     var body = await syncRequest(requestConfig);
+
+        //     // 数据保存到本地
+        //     fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.html`, body);
+
+        //     parseCurrent(cheerio.load(body));
+        // }
+
+        // // 数据保存到本地
+        // fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
 
     } catch (error) {
         console.error("error", error);
@@ -80,7 +106,15 @@ async function parsePagenation() {
     var total = 1;
     while (true) {
         requestConfig.qs = {
-            "page": total
+            "src": "web",
+            "uid": "582d5cb667f356006331e586",
+            "device_id": "1560005329014",
+            "token": "eyJhY2Nlc3NfdG9rZW4iOiJENVp4b2l6ajlUeEdmeGpxIiwicmVmcmVzaF90b2tlbiI6IlhZYWNvTEk5WUVxNHJpcUIiLCJ0b2tlbl90eXBlIjoibWFjIiwiZXhwaXJlX2luIjoyNTkyMDAwfQ%3D%3D",
+            "targetUid": "582d5cb667f356006331e586",
+            "type": "post",
+            "before": "1970-01-01T00:00:00.Z",
+            "limit": "1000",
+            "order": "createdAt"
         };
 
         var body = await syncRequest(requestConfig);
