@@ -1,10 +1,10 @@
 {
   "name": "oschina",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "oschina",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
+    "moment": "^2.24.0",
     "crypto-js": "^3.1.9-1",
     "request": "^2.88.0"
   },
