@@ -138,29 +138,6 @@ function isLogin($) {
 }
 
 /**
- *  解析分页
- * @param {html} body 
- */
-function parsePagenation2($) {
-    // 解析尾页
-    var lastPage = ($("#pageBox li.js-page-next.js-page-action.ui-pager").prev().text()) * 1;
-
-    console.log("lastPage", lastPage);
-
-    var pagenation = $("#pageBox li.ui-pager");
-
-
-    for (var i = 0; i < pagenation.length; i++) {
-        var page = pagenation[i];
-
-        console.log($(page).text());
-
-    }
-
-    return lastPage;
-}
-
-/**
  *  解析当前页
  * @param {html} body 
  */
