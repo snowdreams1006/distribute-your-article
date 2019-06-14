@@ -115,15 +115,6 @@ function syncRequest(options) {
 }
 
 /**
- *  是否是最大页码
- * @param {html} $ 
- */
-function isTotal($) {
-    // 若超过最大页码,激活选项卡是动态而不是文章
-    return $("#outer-container > ul > li.active > a").attr("href") == "/users/577b0d76ab87/timeline";
-}
-
-/**
  *  是否已登录
  * @param {html} $ 
  */
