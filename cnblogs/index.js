@@ -61,23 +61,21 @@ async function indexWithCookie(requestConfig) {
 
         // 解析出分页总数,依次遍历访问累加
         var total = parseIndex(body);
-        console.log("total",total);
+        for (var i = 1; i <= total; i++) {
+            requestConfig.qs = {
+                "page": i
+            };
 
-        // for (var i = 1; i <= total; i++) {
-        //     requestConfig.qs = {
-        //         "page": i
-        //     };
+            body = await syncRequest(requestConfig);
 
-        //     body = await syncRequest(requestConfig);
+            // 数据保存到本地
+            fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.html`, body);
 
-        //     // 数据保存到本地
-        //     fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.html`, body);
+            parseCurrent(cheerio.load(body));
+        }
 
-        //     parseCurrent(cheerio.load(body));
-        // }
-
-        // // 数据保存到本地
-        // fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
+        // 数据保存到本地
+        fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
 
     } catch (error) {
         console.error("error", error);
@@ -193,27 +191,6 @@ function parseCurrent($) {
     console.log();
     console.log(`当前页面解析完毕,一共${result.atricles.length}篇文章, 阅读量: ${result.readCount} 推荐量: ${result.recommendCount} 评论数: ${result.commentCount}`);
     console.log();
-}
-
-/**
- * 访问首页(自定义 cookie)
- */
-function indexWithCookie2() {
-    request.get({
-        url: "https://i.cnblogs.com/",
-        headers: {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36",
-            "Cookie": cookie.cnblogs
-        },
-        jar: true
-    }, function(error, response, body) {
-        if (!error && response.statusCode == 200) {
-
-            parseIndex(body);
-        } else {
-            console.error("访问首页失败", error);
-        }
-    });
 }
 
 /**
