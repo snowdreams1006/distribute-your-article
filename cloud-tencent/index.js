@@ -1,6 +1,11 @@
 var fs = require("fs");
+var moment = require("moment");
 var request = require("request");
 var cheerio = require("cheerio");
+
+// 日期格式化
+moment.locale("zh-cn");
+var now = moment();
 
 // 读取自定义 cookie
 var cookie = readCookie();
@@ -8,8 +13,29 @@ cookie = JSON.parse(cookie);
 
 console.log("cookie", cookie["cloud-tencent"]);
 
+// 请求参数
+var requestConfig = {
+    url: "https://cloud.tencent.com/developer/user/2952369/activities",
+    qs: {
+
+    },
+    headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36",
+        "Cookie": cookie["cloud-tencent"]
+    },
+    jar: true
+};
+
+// 解析结果
+var result = {
+    atricles: [],
+    readCount: 0,
+    recommendCount: 0,
+    commentCount: 0
+};
+
 // 模拟登录直接访问首页
-indexWithCookie();
+indexWithCookie(requestConfig);
 
 /**
  * 读取 cookie(自定义 cookie)
@@ -19,31 +45,196 @@ function readCookie() {
 }
 
 /**
- * 访问首页(自定义 cookie)
+ * 同步访问首页(自定义 cookie)
  */
-function indexWithCookie() {
-    request.get({
-        url: "https://cloud.tencent.com/developer/user/2952369/activities",
-        headers: {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36",
-            "Cookie": cookie["cloud-tencent"]
-        },
-        jar: true
-    }, function(error, response, body) {
-        if (!error && response.statusCode == 200) {
+async function indexWithCookie(requestConfig) {
+    try {
+        // 解析首页数据
+        await parseIndex();
 
-            parseIndex(body);
-        } else {
-            console.error("访问首页失败", error);
+        // 解析出分页总数,依次遍历访问累加
+        var total = await parsePagenation();
+        for (var i = 1; i <= total; i++) {
+            //默认规则分页查询
+            requestConfig.url = "https://cloud.tencent.com/developer/services/ajax/user-center";
+            requestConfig.method = "POST";
+            requestConfig.json = true;
+            requestConfig.qs = {
+                "action": "GetUserActivities",
+                "uin": "100005824907",
+                "csrfCode": "502094663"
+            };
+            requestConfig.body = {
+                "action": "GetUserActivities",
+                "payload": {
+                    "uid": 2952369,
+                    "pageNumber": i
+                }
+            };
+
+            var body = await syncRequest(requestConfig);
+
+            // 数据保存到本地
+            fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}[${i}].json`, JSON.stringify(body));
+
+            parseCurrent(body);
         }
+
+        // 数据保存到本地
+        fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
+
+    } catch (error) {
+        console.error("error", error);
+    }
+}
+
+/**
+ * 解析首页
+ */
+async function parseIndex() {
+    // 初次访问解析出分页总数,并不计数
+    var body = await syncRequest(requestConfig);
+
+    // 判断是否登录
+    isLogin(cheerio.load(body));
+
+    // 数据保存到本地
+    fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.html`, body);
+}
+
+/**
+ * 解析分页
+ */
+async function parsePagenation() {
+    // 累加访问获取最大分页数据
+    var total = 1;
+    while (true) {
+        //默认规则分页查询
+        requestConfig.url = "https://cloud.tencent.com/developer/services/ajax/user-center";
+        requestConfig.method = "POST";
+        requestConfig.json = true;
+        requestConfig.qs = {
+            "action": "GetUserActivities",
+            "uin": "100005824907",
+            "csrfCode": "502094663"
+        };
+        requestConfig.body = {
+            "action": "GetUserActivities",
+            "payload": {
+                "uid": 2952369,
+                "pageNumber": total
+            }
+        };
+
+        var body = await syncRequest(requestConfig);
+        if (isTotal(body)) {
+            break;
+        }
+        total++;
+    }
+    // 最大页码时不该越界
+    total -= 1;
+
+    return total;
+}
+
+/**
+ *  同步请求
+ * @param {object} options 
+ */
+function syncRequest(options) {
+    return new Promise(function(resolve, reject) {
+        request(options, function(error, response, body) {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(body);
+            }
+        });
     });
+}
+
+/**
+ *  是否是最大页码
+ * @param {html} $ 
+ */
+function isTotal(body) {
+    // 超过分页请求,list 列表为空
+    return body.code == 0 && body.data.list.length == 0;
+}
+
+/**
+ *  是否已登录
+ * @param {html} $ 
+ */
+function isLogin($) {
+    // 已经登录会出现用户个人头像,否则不出现
+    var userAvatar = $("#react-root > div:nth-child(1) > div.J-header.c-nav-wrap.c-nav.com-2-nav.c-nav-air-sub > div > div.J-headerBottom.c-nav-bottom.responsive > div.J-headerBottomRight.c-nav-bm-right > div:nth-child(4) > a");
+
+    var loginFlag = userAvatar && userAvatar.attr("href");
+    if (loginFlag) {
+        console.log("已经登录: " + userAvatar.attr("href"));
+
+        return true;
+    } else {
+        console.log("尚未登录");
+
+        return false;
+    }
 }
 
 /**
  *  解析首页
  * @param {html} body 
  */
-function parseIndex(body) {
+function parseCurrent(body) {
+    // 解析文章基本信息
+    if (body.code == 0 && body.data.list.length > 0) {
+        var atricles = body.data.list;
+        for (var i = 0; i < atricles.length; i++) {
+            var article = atricles[i].detail;
+
+            // 标题以及链接
+            var title = article.title;
+            var href = "https://cloud.tencent.com/developer/article/" + article.articleId;
+            var content = article.content;
+
+            // 最后一篇是个人简介
+            if (!title) {
+                continue;
+            }
+
+            // 阅读量,评论量以及喜欢
+            var readCount = article.viewCount;
+            var commentCount = article.commentCount;
+            var recommendCount = article.likeCount;
+
+            // 文章汇总数据
+            result.atricles.push({
+                "title": title,
+                "href": href,
+                "content": content
+            });
+            result.readCount += readCount;
+            result.recommendCount += recommendCount;
+            result.commentCount += commentCount;
+
+            // 当前页正在解析中
+            console.log(`当前页面解析中,一共${atricles.length}篇文章,正在解析第${i+1}篇,标题: ${title} 阅读量: ${readCount} 点赞数: ${recommendCount} 评论数: ${commentCount}`);
+        }
+    }
+
+    // 当前页解析完毕
+    console.log();
+    console.log(`当前页面解析完毕,一共${result.atricles.length}篇文章, 阅读量: ${result.readCount} 点赞数: ${result.recommendCount} 评论数: ${result.commentCount}`);
+    console.log();
+}
+
+/**
+ *  解析首页
+ * @param {html} body 
+ */
+function parseIndex2(body) {
     var $ = cheerio.load(body);
 
     // 已经登录会出现用户个人头像,否则不出现
