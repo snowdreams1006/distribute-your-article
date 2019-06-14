@@ -143,17 +143,17 @@ function isLogin($) {
  */
 function parseCurrent($) {
     // 解析当前页
-    var atricles = $("#articlesList div.article-item");
+    var atricles = $(".article-list div.article-item-box");
     for (var i = 0; i < atricles.length; i++) {
         var article = atricles[i];
 
-        var header = $(article).find("h3.item-title");
-        var body = $(article).find("div.item-txt");
-        var footer = $(article).find("div.item-btm");
+        var header = $(article).find("h4");
+        var body = $(article).find("p.content");
+        var footer = $(article).find("div.info-box");
 
         // 标题以及链接
-        var titile = $(header).find("a.title-detail").text().trim();
-        var href = $(header).find("a.title-detail").attr("href");
+        var titile = $(header).find("a").text().trim().replace(/[原转译\s]/g, "");
+        var href = $(header).find("a").attr("href");
         // 内容概要
         var content = $(body).find("p.item-bd").text()
         // 阅读量,推荐量以及评论量
