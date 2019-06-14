@@ -99,41 +99,6 @@ async function indexWithCookie(requestConfig) {
 }
 
 /**
- * 解析分页
- */
-async function parsePagenation() {
-    // 累加访问获取最大分页数据
-    var total = 1;
-    while (true) {
-        requestConfig.qs = {
-            "src": "web",
-            "uid": "582d5cb667f356006331e586",
-            "device_id": "1560005329014",
-            "token": "eyJhY2Nlc3NfdG9rZW4iOiJENVp4b2l6ajlUeEdmeGpxIiwicmVmcmVzaF90b2tlbiI6IlhZYWNvTEk5WUVxNHJpcUIiLCJ0b2tlbl90eXBlIjoibWFjIiwiZXhwaXJlX2luIjoyNTkyMDAwfQ%3D%3D",
-            "targetUid": "582d5cb667f356006331e586",
-            "type": "post",
-            "before": "1970-01-01T00:00:00.Z",
-            "limit": "1000",
-            "order": "createdAt"
-        };
-
-        var body = await syncRequest(requestConfig);
-        var $ = cheerio.load(body);
-        if (!isLogin($)) {
-            return console.error("尚未登录,cookie 可能已失效!");
-        }
-        if (isTotal($)) {
-            break;
-        }
-        total++;
-    }
-    // 最大页码时不该越界
-    total -= 1;
-
-    return total;
-}
-
-/**
  *  同步请求
  * @param {object} options 
  */
