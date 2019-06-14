@@ -79,8 +79,6 @@ async function parseIndex() {
  * 请求数据
  */
 async function requestPagenationData(before) {
-    console.log("requestPagenationData:before", before);
-
     //默认规则分页查询
     requestConfig.url = "https://timeline-merger-ms.juejin.im/v1/get_entry_by_self";
     requestConfig.qs = {
@@ -102,7 +100,6 @@ async function requestPagenationData(before) {
 
     // 解析当前分页数据
     before = parseCurrent(body);
-    console.log("parseCurrent:before", before);
 
     // 递归请求分页数据
     if (before) {
@@ -159,7 +156,7 @@ function parseCurrent(body) {
             var article = atricles[i];
 
             // 标题以及链接
-            var titile = article.titile;
+            var title = article.title;
             var href = article.originalUrl;
             // 内容概要
             var content = article.content;
@@ -170,7 +167,7 @@ function parseCurrent(body) {
 
             // 文章汇总数据
             result.atricles.push({
-                "titile": titile,
+                "title": title,
                 "href": href,
                 "content": content
             });
@@ -179,7 +176,7 @@ function parseCurrent(body) {
             result.recommendCount += recommendCount;
 
             // 当前页正在解析中
-            console.log(`当前页面解析中,一共${atricles.length}篇文章,正在解析第${i+1}篇,标题: ${titile} 点赞数: ${recommendCount} 评论数: ${commentCount} 阅读数: ${readCount}`);
+            console.log(`当前页面解析中,一共${atricles.length}篇文章,正在解析第${i+1}篇,标题: ${title} 点赞数: ${recommendCount} 评论数: ${commentCount} 阅读数: ${readCount}`);
         }
 
         return atricles[atricles.length - 1].createdAt;
