@@ -57,7 +57,6 @@ async function indexWithCookie(requestConfig) {
 
         // 初次访问解析出分页总数,并不计数
         var body = await syncRequest(requestConfig);
-        fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.html`, body);
 
         // 解析出分页总数,依次遍历访问累加
         var total = parseIndex(body);
@@ -69,7 +68,7 @@ async function indexWithCookie(requestConfig) {
             body = await syncRequest(requestConfig);
 
             // 数据保存到本地
-            fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.html`, body);
+            fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}[${i}].html`, body);
 
             parseCurrent(cheerio.load(body));
         }
