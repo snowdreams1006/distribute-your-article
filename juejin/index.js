@@ -130,11 +130,11 @@ function isTotal($) {
  */
 function isLogin($) {
     // 已经登录会出现用户个人头像,否则不出现
-    var userAvatar = $(".user a.avatar");
+    var settingBtn = $("#juejin div.user-info-block > div.action-box > button.setting-btn");
 
-    var loginFlag = userAvatar && userAvatar.attr("href");
+    var loginFlag = settingBtn && settingBtn.text();
     if (loginFlag) {
-        console.log("已经登录: " + userAvatar.attr("href"));
+        console.log("已经登录: " + settingBtn.text());
 
         return true;
     } else {
@@ -186,30 +186,4 @@ function parseCurrent($) {
     console.log();
     console.log(`当前页面解析完毕,一共${result.atricles.length}篇文章, 阅读量: ${result.readCount} 评论数: ${result.commentCount} 喜欢数: ${result.recommendCount}`);
     console.log();
-}
-
-
-
-
-
-
-
-
-
-/**
- *  解析首页
- * @param {html} body 
- */
-function parseIndex(body) {
-    var $ = cheerio.load(body);
-
-    // 已经登录会出现用户个人头像,否则不出现
-    var settingBtn = $("#juejin div.user-info-block > div.action-box > button.setting-btn");
-
-    var loginFlag = settingBtn && settingBtn.text();
-    if (loginFlag) {
-        console.log("已经登录: " + settingBtn.text());
-    } else {
-        console.log("尚未登录: " + body);
-    }
 }
