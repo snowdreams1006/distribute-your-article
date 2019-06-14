@@ -27,7 +27,6 @@ var requestConfig = {
 var result = {
     atricles: [],
     readCount: 0,
-    recommendCount: 0,
     commentCount: 0
 };
 
@@ -152,18 +151,14 @@ function parseCurrent($) {
         var footer = $(article).find("div.info-box");
 
         // 标题以及链接
-        var titile = $(header).find("a").text().trim().replace(/[原转译\s]/g, "");
+        var titile = $(header).find("a").text().trim().replace(/[\s]/g, "").replace(/[原转译]/, "");
         var href = $(header).find("a").attr("href");
         // 内容概要
-        var content = $(body).find("p.item-bd").text()
-        // 阅读量,推荐量以及评论量
-        var readCount = $(footer).find(".right-info > div:nth-child(1) > em").text().trim();
-        readCount = (readCount.substr(0, readCount.lastIndexOf("浏览"))) * 1
-        var recommendCount = $(footer).find(".right-info > div:nth-child(2) > em").text().trim();
-        recommendCount = (recommendCount.substr(0, recommendCount.lastIndexOf("推荐"))) * 1;
-        var commentCount = $(footer).find(".right-info > div:nth-child(3) > em").text().trim();
-        commentCount = (commentCount.substr(0, commentCount.lastIndexOf("评论"))) * 1;
-
+        var content = $(body).find("a").text().trim();
+        // 阅读数和评论量
+        var readCount = ($(footer).find("p:nth-child(3) > span > span").text().trim()) * 1;
+        var commentCount = ($(footer).find("p:nth-child(5) > span > span").text().trim()) * 1;
+       
         // 文章汇总数据
         result.atricles.push({
             "titile": titile,
@@ -171,15 +166,14 @@ function parseCurrent($) {
             "content": content
         });
         result.readCount += readCount;
-        result.recommendCount += recommendCount;
         result.commentCount += commentCount;
 
         // 当前页正在解析中
-        console.log(`当前页面解析中,一共${atricles.length}篇文章,正在解析第${i+1}篇,标题: ${titile} 阅读量: ${readCount} 推荐量: ${recommendCount} 评论数: ${commentCount}`);
+        console.log(`当前页面解析中,一共${atricles.length}篇文章,正在解析第${i+1}篇,标题: ${titile} 阅读数: ${readCount} 评论数: ${commentCount}`);
     }
 
     // 当前页解析完毕
     console.log();
-    console.log(`当前页面解析完毕,一共${result.atricles.length}篇文章, 阅读量: ${result.readCount} 推荐量: ${result.recommendCount} 评论数: ${result.commentCount}`);
+    console.log(`当前页面解析完毕,一共${result.atricles.length}篇文章, 阅读数: ${result.readCount} 评论数: ${result.commentCount}`);
     console.log();
 }
