@@ -53,7 +53,7 @@ async function indexWithCookie(requestConfig) {
             var body = await syncRequest(requestConfig);
 
             // 数据保存到本地
-            fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.html`, body);
+            fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}[${i}].html`, body);
 
             parseCurrent(cheerio.load(body));
         }
