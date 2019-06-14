@@ -52,11 +52,14 @@ async function indexWithCookie(requestConfig) {
 
     // $("#pageBox li.js-page-next.js-page-action.ui-pager").prev().text();
 
+//article-list
 
     // 初次访问解析出分页总数,并不计数
+    requestConfig.url = "https://blog.csdn.net/weixin_38171180/article/list/3";
     var body = await syncRequest(requestConfig);
 
     console.log("body", body);
+    fs.writeFileSync(`./data/nologin.html`, body);
     
 
     // 解析出分页总数,依次遍历访问累加
