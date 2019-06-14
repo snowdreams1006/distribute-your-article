@@ -45,6 +45,31 @@ function readCookie() {
  * 同步访问首页(自定义 cookie)
  */
 async function indexWithCookie(requestConfig) {
+    try {
+        // 解析出分页总数,依次遍历访问累加
+        var total = await parsePagenation();
+        console.log("total",total);
+        // for (var i = 1; i <= total; i++) {
+        //     requestConfig.qs = {
+        //         "page": i
+        //     };
+
+        //     var body = await syncRequest(requestConfig);
+
+        //     // 数据保存到本地
+        //     fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.html`, body);
+
+        //     parseCurrent(cheerio.load(body));
+        // }
+
+        // // 数据保存到本地
+        // fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
+
+    } catch (error) {
+        console.error("error", error);
+    }
+
+
     // 访问首页,解析出分页总数,依次遍历累加
 
 
@@ -54,17 +79,17 @@ async function indexWithCookie(requestConfig) {
 
 //article-list
 
-    // 初次访问解析出分页总数,并不计数
-    requestConfig.url = "https://blog.csdn.net/weixin_38171180/article/list/3";
-    var body = await syncRequest(requestConfig);
+    // // 初次访问解析出分页总数,并不计数
+    // requestConfig.url = "https://blog.csdn.net/weixin_38171180/article/list/3";
+    // var body = await syncRequest(requestConfig);
 
-    console.log("body", body);
-    fs.writeFileSync(`./data/nologin.html`, body);
+    // console.log("body", body);
+    // fs.writeFileSync(`./data/nologin.html`, body);
     
 
-    // 解析出分页总数,依次遍历访问累加
-    var total = parseIndex(body);
-    console.log("total", total);
+    // // 解析出分页总数,依次遍历访问累加
+    // var total = parseIndex(body);
+    // console.log("total", total);
 
 
     // for (var i = 1; i <= total; i++) {
@@ -77,6 +102,31 @@ async function indexWithCookie(requestConfig) {
 
     // // 数据保存到本地
     // fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
+}
+
+/**
+ * 解析分页
+ */
+async function parsePagenation() {
+    // 累加访问获取最大分页数据
+    var total = 1;
+    while (true) {
+        requestConfig.url = `https://blog.csdn.net/weixin_38171180/article/list/${total}`
+
+        var body = await syncRequest(requestConfig);
+        var $ = cheerio.load(body);
+        if (!isLogin($)) {
+            return console.error("尚未登录,cookie 可能已失效!");
+        }
+        if (isTotal($)) {
+            break;
+        }
+        total++;
+    }
+    // 最大页码时不该越界
+    total -= 1;
+
+    return total;
 }
 
 /**
@@ -93,6 +143,15 @@ function syncRequest(options) {
             }
         });
     });
+}
+
+/**
+ *  是否是最大页码
+ * @param {html} $ 
+ */
+function isTotal($) {
+    // 若超过最大页码,激活选项卡是动态而不是文章
+    return $(".article-list") && !$(".article-list").html();
 }
 
 /**
@@ -136,7 +195,7 @@ function isLogin($) {
  *  解析分页
  * @param {html} body 
  */
-function parsePagenation($) {
+function parsePagenation2($) {
     // 解析尾页
     var lastPage = ($("#pageBox li.js-page-next.js-page-action.ui-pager").prev().text()) * 1;
 
