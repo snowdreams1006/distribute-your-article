@@ -48,60 +48,23 @@ async function indexWithCookie(requestConfig) {
     try {
         // 解析出分页总数,依次遍历访问累加
         var total = await parsePagenation();
-        console.log("total",total);
-        // for (var i = 1; i <= total; i++) {
-        //     requestConfig.qs = {
-        //         "page": i
-        //     };
+        for (var i = 1; i <= total; i++) {
+            requestConfig.url = `https://blog.csdn.net/weixin_38171180/article/list/${i}`
 
-        //     var body = await syncRequest(requestConfig);
+            var body = await syncRequest(requestConfig);
 
-        //     // 数据保存到本地
-        //     fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.html`, body);
+            // 数据保存到本地
+            fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.html`, body);
 
-        //     parseCurrent(cheerio.load(body));
-        // }
+            parseCurrent(cheerio.load(body));
+        }
 
-        // // 数据保存到本地
-        // fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
+        // 数据保存到本地
+        fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
 
     } catch (error) {
         console.error("error", error);
     }
-
-
-    // 访问首页,解析出分页总数,依次遍历累加
-
-
-    //https://blog.csdn.net/weixin_38171180/article/list/2?
-
-    // $("#pageBox li.js-page-next.js-page-action.ui-pager").prev().text();
-
-//article-list
-
-    // // 初次访问解析出分页总数,并不计数
-    // requestConfig.url = "https://blog.csdn.net/weixin_38171180/article/list/3";
-    // var body = await syncRequest(requestConfig);
-
-    // console.log("body", body);
-    // fs.writeFileSync(`./data/nologin.html`, body);
-    
-
-    // // 解析出分页总数,依次遍历访问累加
-    // var total = parseIndex(body);
-    // console.log("total", total);
-
-
-    // for (var i = 1; i <= total; i++) {
-    //     requestConfig.url = "";
-
-    //     var body = await syncRequest(requestConfig);
-
-    //     parseCurrent(cheerio.load(body));
-    // }
-
-    // // 数据保存到本地
-    // fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
 }
 
 /**
@@ -152,23 +115,6 @@ function syncRequest(options) {
 function isTotal($) {
     // 若超过最大页码,激活选项卡是动态而不是文章
     return $(".article-list") && !$(".article-list").html();
-}
-
-/**
- *  解析首页
- * @param {html} body 
- */
-function parseIndex(body) {
-    // 解析页面结构
-    var $ = cheerio.load(body);
-
-    // 是否登录
-    if (!isLogin($)) {
-        return console.error("尚未登录,cookie 可能已失效!");
-    }
-
-    // 解析分页信息
-    return parsePagenation($);
 }
 
 /**
