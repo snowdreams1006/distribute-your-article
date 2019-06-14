@@ -1,12 +1,38 @@
 var fs = require("fs");
+var moment = require("moment");
 var request = require("request");
 var cheerio = require("cheerio");
+
+// 日期格式化
+moment.locale("zh-cn");
+var now = moment();
 
 // 读取自定义 cookie
 var cookie = readCookie();
 cookie = JSON.parse(cookie);
 
 console.log("cookie", cookie.segmentfault);
+
+// 请求参数
+var requestConfig = {
+    url: "https://segmentfault.com/blog/snowdreams1006",
+    qs: {
+        "page": 1
+    },
+    headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36",
+        "Cookie": cookie.segmentfault
+    },
+    jar: true
+};
+
+// 解析结果
+var result = {
+    atricles: [],
+    readCount: 0,
+    recommendCount: 0,
+    commentCount: 0
+};
 
 // 模拟登录直接访问首页
 indexWithCookie();
