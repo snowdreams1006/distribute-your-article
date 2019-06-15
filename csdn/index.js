@@ -153,12 +153,17 @@ function parseCurrent($) {
         // 标题以及链接
         var titile = $(header).find("a").text().trim().replace(/[\s]/g, "").replace(/[原转译]/, "");
         var href = $(header).find("a").attr("href");
-        // 内容概要
         var content = $(body).find("a").text().trim();
+
+        // 过滤无效文章
+        if ("帝都的凛冬" == titile) {
+            continue;
+        }
+
         // 阅读数和评论量
         var readCount = ($(footer).find("p:nth-child(3) > span > span").text().trim()) * 1;
         var commentCount = ($(footer).find("p:nth-child(5) > span > span").text().trim()) * 1;
-       
+
         // 文章汇总数据
         result.atricles.push({
             "titile": titile,

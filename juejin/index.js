@@ -184,7 +184,7 @@ function parseCurrent(body) {
 
     // 当前页解析完毕
     console.log();
-    console.log(`当前页面解析完毕,一共${result.atricles.length}篇文章, 点赞数: ${recommendCount} 评论数: ${commentCount} 阅读数: ${readCount}`);
+    console.log(`当前页面解析完毕,一共${result.atricles.length}篇文章, 点赞数: ${result.recommendCount} 评论数: ${result.commentCount} 阅读数: ${result.readCount}`);
     console.log();
 
     return;
