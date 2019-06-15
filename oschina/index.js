@@ -286,8 +286,8 @@ function parseCurrent($) {
         }
 
         // 阅读量以及评论量
-        var readCount = ($(footer).find(".eye").parent().text().trim()) * 1 || 0;
-        var commentCount = ($(footer).find(".comment").parent().text().trim()) * 1 || 0;
+        var readCount = (numReconvert($(footer).find(".eye").parent().text().trim())) * 1;
+        var commentCount = (numReconvert($(footer).find(".comment").parent().text().trim())) * 1;
 
         // 文章汇总数据
         result.atricles.push({
@@ -306,4 +306,29 @@ function parseCurrent($) {
     console.log();
     console.log(`当前页面解析完毕,一共${result.atricles.length}篇文章, 阅读量: ${result.readCount} 评论数: ${result.commentCount}`);
     console.log();
+}
+
+function numConvert(num){
+    if(num>=10000){
+      num=Math.round(num/1000)/10+'W';
+    }else if(num>=1000){
+      num=Math.round(num/100)/10+'K';
+    }
+    return num;
+}
+
+function numReconvert(numStr){
+    var unit = numStr.substr(-1);
+    var num = numStr;
+    if(unit == "W" || unit == "K"){
+    num = numStr.substr(0,numStr.indexOf(unit));
+    num= parseInt(num);
+if(unit == "W"){
+num=Math.round(num*1000)*10; 
+}else if(unit == "K"){
+num=Math.round(num*100)*10;
+}
+    }
+
+    return num;
 }
