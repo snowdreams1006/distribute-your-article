@@ -19,5 +19,7 @@
     "cheerio": "^1.0.0-rc.3",
     "request": "^2.88.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "bilibili-zhuanlan-markdown-tool": "^1.0.6"
+  }
 }
