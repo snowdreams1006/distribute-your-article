@@ -1,0 +1,40 @@
+# ---------------------
+# Current build version
+# ---------------------
+version: 1.0.8-{build}
+# -------------------------------------------------------
+# Test against the latest version of this Node.js version
+# -------------------------------------------------------
+environment:
+  matrix:
+    - nodejs_version: "6.17.1"
+    - nodejs_version: "8.16.0"
+    - nodejs_version: "10.15.3"
+    - nodejs_version: "12.2.0"
+# ------------------------
+# Choose Windows platforms
+# ------------------------
+platform:
+  - x86
+  - x64
+# ------------------------------------------
+# Install scripts. (runs after repo cloning)
+# ------------------------------------------
+install:
+  # Get the latest stable version of Node.js or io.js
+  - ps: Install-Product node $env:nodejs_version
+  # Output useful info for debugging.
+  - node --version
+  - npm --version
+  # Install node_modules
+  - npm install
+# --------------------------
+# Post-install test scripts.
+# --------------------------
+test_script:
+  # run tests
+  - npm run test
+# --------------------
+# Don't actually build.
+# --------------------
+build: off
