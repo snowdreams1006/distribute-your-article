@@ -1,10 +1,10 @@
 {
-  "name": "jianshu",
+  "name": "bilibili",
   "version": "0.0.1",
-  "description": "jianshu",
+  "description": "bilibili",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./index.js"
   },
   "repository": {
     "type": "git",
@@ -19,5 +19,7 @@
     "cheerio": "^1.0.0-rc.3",
     "request": "^2.88.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "bilibili-zhuanlan-markdown-tool": "^1.0.6"
+  }
 }

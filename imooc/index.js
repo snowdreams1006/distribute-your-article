@@ -83,11 +83,11 @@ async function indexWithCookie(requestConfig) {
 
 /**
  *  同步请求
- * @param {object} options 
+ * @param {object} options
  */
 function syncRequest(options) {
-    return new Promise(function(resolve, reject) {
-        request.get(options, function(error, response, body) {
+    return new Promise(function (resolve, reject) {
+        request.get(options, function (error, response, body) {
             if (error) {
                 reject(error);
             } else {
@@ -99,7 +99,7 @@ function syncRequest(options) {
 
 /**
  *  解析首页
- * @param {html} body 
+ * @param {html} body
  */
 function parseIndex(body) {
     // 解析页面结构
@@ -116,7 +116,7 @@ function parseIndex(body) {
 
 /**
  *  是否已登录
- * @param {html} $ 
+ * @param {html} $
  */
 function isLogin($) {
     // 已经登录应该停留在手记页面,尚未登录则跳转到登录页面
@@ -129,14 +129,13 @@ function isLogin($) {
         return true;
     } else {
         console.log("尚未登录: " + body);
-
         return false;
     }
 }
 
 /**
  *  解析分页
- * @param {html} body 
+ * @param {html} body
  */
 function parsePagenation($) {
     // 解析当前页以及尾页
@@ -149,7 +148,7 @@ function parsePagenation($) {
 
 /**
  *  解析当前页
- * @param {html} body 
+ * @param {html} body
  */
 function parseCurrent($) {
     // 解析当前页
@@ -185,7 +184,7 @@ function parseCurrent($) {
         result.commentCount += commentCount;
 
         // 当前页正在解析中
-        console.log(`当前页面解析中,一共${atricles.length}篇文章,正在解析第${i+1}篇,标题: ${titile} 阅读量: ${readCount} 推荐量: ${recommendCount} 评论数: ${commentCount}`);
+        console.log(`当前页面解析中,一共${atricles.length}篇文章,正在解析第${i + 1}篇,标题: ${titile} 阅读量: ${readCount} 推荐量: ${recommendCount} 评论数: ${commentCount}`);
     }
 
     // 当前页解析完毕

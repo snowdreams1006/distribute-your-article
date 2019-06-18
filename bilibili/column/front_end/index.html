@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Bilibili 专栏 Markdown 工具 - 前端窗口</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Well -->
+        <div class="well">
+            <p class="lead">Bilibili专栏<code>Markdown</code>工具 - 使用说明</p>
+            <ol>
+                <li>填写配置信息<code>config.json</code></li>
+                <li>输入<code>*.md</code>文件路径</li>
+                <li>点击<kbd>提交</kbd></li>
+            </ol>
+        </div>
+        <!-- Post Form -->
+        <div class="row col-md-12">
+            <form method="POST">
+                <h2>Markdown文件路径</h2>
+                <input type="text" class="form-control" placeholder="/path/to/your/markdown/file" name="md_file_path" required>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="config_check" value="ok"> 我确定已填写好配置信息
+                    </label>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">提交</button>
+            </form>
+        </div>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js">
+    </script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js">
+    </script>
+    <script src="https://cdn.bootcss.com/marked/0.3.19/marked.min.js">
+    </script>
+</body>
+
+</html>
