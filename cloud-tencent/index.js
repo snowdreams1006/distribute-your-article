@@ -49,39 +49,24 @@ function readCookie(cookieKey) {
 async function indexWithCookie() {
     try {
         // 解析首页数据
-        await parseIndexHtml();
+        var indexHtml = await parseIndexHtml();
 
-        // 解析出分页总数,依次遍历访问累加
-        var total = await parsePagenation();
-        for (var i = 1; i <= total; i++) {
-            //默认规则分页查询
-            requestConfig.url = "https://cloud.tencent.com/developer/services/ajax/user-center";
-            requestConfig.method = "POST";
-            requestConfig.json = true;
-            requestConfig.qs = {
-                "action": "GetUserActivities",
-                "uin": "100005824907",
-                "csrfCode": "502094663"
-            };
-            requestConfig.body = {
-                "action": "GetUserActivities",
-                "payload": {
-                    "uid": 2952369,
-                    "pageNumber": i
-                }
-            };
+        // 首页页面保存到本地
+        fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.html`, indexHtml);
+        console.log(`首页已经保存至 ./data/${now.format("YYYY-MM-DD")}.html 如需查看,建议断网访问.`);
 
-            var body = await syncRequest(requestConfig);
+        // 解析全部分页数据
+        await parseAllPagenationData();
 
-            // 数据保存到本地
-            fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}[${i}].json`, JSON.stringify(body));
-
-            parseCurrent(body);
-        }
-
-        // 数据保存到本地
+        // 统计数据保存到本地
         fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
+        console.log(`统计数据已经保存至 ./data/${now.format("YYYY-MM-DD")}.json`);
 
+        // 计算总耗时
+        console.log();
+        var endTime = moment();
+        var duringTime = endTime.diff(now, 'seconds', true);
+        console.log(`${now.format("YYYY-MM-DD HH:mm:ss")} ~ ${endTime.format("YYYY-MM-DD HH:mm:ss")} 共耗时 ${duringTime} 秒`);
     } catch (error) {
         console.error("error", error);
     }
@@ -98,9 +83,7 @@ async function parseIndexHtml() {
     var loginFlag = isLogin(body);
     console.log(loginFlag ? '已经登录' : '尚未登录');
 
-    // 数据保存到本地
-    fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.html`, body);
-    console.log(`首页已经保存至 ./data/${now.format("YYYY-MM-DD")}.html 如需查看,建议断网访问.`);
+    return body;
 }
 
 /**
@@ -134,13 +117,13 @@ function isLogin(body) {
 }
 
 /**
- * 解析分页
+ * 解析全部分页数据
  */
-async function parsePagenation() {
+async function parseAllPagenationData() {
     // 累加访问获取最大分页数据
-    var total = 1;
+    var currentPage = 1;
     while (true) {
-        //默认规则分页查询
+        // 默认规则分页查询
         requestConfig.url = "https://cloud.tencent.com/developer/services/ajax/user-center";
         requestConfig.method = "POST";
         requestConfig.json = true;
@@ -153,43 +136,45 @@ async function parsePagenation() {
             "action": "GetUserActivities",
             "payload": {
                 "uid": 2952369,
-                "pageNumber": total
+                "pageNumber": currentPage
             }
         };
 
-        var body = await syncRequest(requestConfig);
-        if (isTotal(body)) {
+        // 依次分页查询
+        var responseBody = await syncRequest(requestConfig);
+        if (isReachLimitTotal(responseBody)) {
             break;
         }
-        total++;
+
+        // 解析当前分页数据
+        parseCurrentPagenationData(responseBody);
+
+        // 当前分页数据保存到本地
+        fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}[${currentPage}].json`, JSON.stringify(responseBody));
+
+        currentPage++;
     }
-    // 最大页码时不该越界
-    total -= 1;
-
-    return total;
 }
 
-
-
 /**
- *  是否是最大页码
- * @param {html} $ 
+ *  是否达到最大分页请求
+ * 
+ * @param {object} responseBody 
  */
-function isTotal(body) {
+function isReachLimitTotal(responseBody) {
     // 超过分页请求,list 列表为空
-    return body.code == 0 && body.data.list.length == 0;
+    return responseBody.code == 0 && responseBody.data.list.length == 0;
 }
 
-
-
 /**
- *  解析首页
- * @param {html} body 
+ *  解析当前分页数据
+ * 
+ * @param {html} responseBody 
  */
-function parseCurrent(body) {
+function parseCurrentPagenationData(responseBody) {
     // 解析文章基本信息
-    if (body.code == 0 && body.data.list.length > 0) {
-        var atricles = body.data.list;
+    if (responseBody.code == 0 && responseBody.data.list.length > 0) {
+        var atricles = responseBody.data.list;
         for (var i = 0; i < atricles.length; i++) {
             var article = atricles[i].detail;
 
@@ -229,42 +214,3 @@ function parseCurrent(body) {
     console.log();
 }
 
-/**
- *  解析首页
- * @param {html} body 
- */
-function parseIndex2(body) {
-    var $ = cheerio.load(body);
-
-    // 已经登录会出现用户个人头像,否则不出现
-    var userAvatar = $("#react-root > div:nth-child(1) > div.J-header.c-nav-wrap.c-nav.com-2-nav.c-nav-air-sub > div > div.J-headerBottom.c-nav-bottom.responsive > div.J-headerBottomRight.c-nav-bm-right > div:nth-child(4) > a");
-
-    var loginFlag = userAvatar && userAvatar.attr("href");
-    if (loginFlag) {
-        console.log("已经登录: " + userAvatar.attr("href"));
-    } else {
-        console.log("尚未登录: " + body);
-    }
-
-    // 解析文章基本信息
-    var atricles = $(".com-log-list .com-log-panel");
-    for (var i = 0; i < atricles.length; i++) {
-        var article = atricles[i];
-
-        var header = $(article).find(".com-article-panel-title a");
-        var readCount = $(article).find(".com-i-view").next().text().trim();
-        var recommendCount = $(article).find(".com-i-like").next().text().trim();
-
-        // 标题以及链接
-        var titile = $(header).text().trim();
-        var href = $(header).attr("href");
-
-        console.log("titile", titile);
-        console.log("href", href);
-        console.log("readCount", readCount);
-        console.log("recommendCount", recommendCount);
-
-        // 总体概况
-        console.log(`一共解析出${atricles.length}篇文章,正在解析第${i + 1}篇,标题: ${titile} 阅读量: ${readCount} 点赞量: ${recommendCount}`);
-    }
-}
