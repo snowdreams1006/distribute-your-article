@@ -51,33 +51,33 @@ async function indexWithCookie() {
         // 解析首页数据
         await parseIndexHtml();
 
-        // // 解析出分页总数,依次遍历访问累加
-        // var total = await parsePagenation();
-        // for (var i = 1; i <= total; i++) {
-        //     //默认规则分页查询
-        //     requestConfig.url = "https://cloud.tencent.com/developer/services/ajax/user-center";
-        //     requestConfig.method = "POST";
-        //     requestConfig.json = true;
-        //     requestConfig.qs = {
-        //         "action": "GetUserActivities",
-        //         "uin": "100005824907",
-        //         "csrfCode": "502094663"
-        //     };
-        //     requestConfig.body = {
-        //         "action": "GetUserActivities",
-        //         "payload": {
-        //             "uid": 2952369,
-        //             "pageNumber": i
-        //         }
-        //     };
+        // 解析出分页总数,依次遍历访问累加
+        var total = await parsePagenation();
+        for (var i = 1; i <= total; i++) {
+            //默认规则分页查询
+            requestConfig.url = "https://cloud.tencent.com/developer/services/ajax/user-center";
+            requestConfig.method = "POST";
+            requestConfig.json = true;
+            requestConfig.qs = {
+                "action": "GetUserActivities",
+                "uin": "100005824907",
+                "csrfCode": "502094663"
+            };
+            requestConfig.body = {
+                "action": "GetUserActivities",
+                "payload": {
+                    "uid": 2952369,
+                    "pageNumber": i
+                }
+            };
 
-        //     var body = await syncRequest(requestConfig);
+            var body = await syncRequest(requestConfig);
 
-        //     // 数据保存到本地
-        //     fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}[${i}].json`, JSON.stringify(body));
+            // 数据保存到本地
+            fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}[${i}].json`, JSON.stringify(body));
 
-        //     parseCurrent(body);
-        // }
+            parseCurrent(body);
+        }
 
         // 数据保存到本地
         fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
@@ -95,10 +95,12 @@ async function parseIndexHtml() {
     var body = await syncRequest(requestConfig);
 
     // 判断是否登录
-    isLogin(cheerio.load(body));
+    var loginFlag = isLogin(body);
+    console.log(loginFlag ? '已经登录' : '尚未登录');
 
     // 数据保存到本地
     fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.html`, body);
+    console.log(`首页已经保存至 ./data/${now.format("YYYY-MM-DD")}.html 如需查看,建议断网访问.`);
 }
 
 /**
@@ -120,22 +122,15 @@ function syncRequest(options) {
 
 /**
  *  是否已登录
- * @param {html} $ 
+ * 
+ * @param {html} body 页面内容
  */
-function isLogin($) {
+function isLogin(body) {
     // 已经登录会出现用户个人头像,否则不出现
+    var $ = cheerio.load(body);
     var userAvatar = $("#react-root > div:nth-child(1) > div.J-header.c-nav-wrap.c-nav.com-2-nav.c-nav-air-sub > div > div.J-headerBottom.c-nav-bottom.responsive > div.J-headerBottomRight.c-nav-bm-right > div:nth-child(4) > a");
-
     var loginFlag = userAvatar && userAvatar.attr("href");
-    if (loginFlag) {
-        console.log("已经登录: " + userAvatar.attr("href"));
-
-        return true;
-    } else {
-        console.log("尚未登录");
-
-        return false;
-    }
+    return loginFlag;
 }
 
 /**
