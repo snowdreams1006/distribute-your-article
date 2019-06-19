@@ -56,6 +56,11 @@ async function indexWithCookie(requestConfig) {
         // 请求分页数据
         await requestPagenationData("");
 
+        // 计算总耗时
+        console.log();
+        var endTime = moment();
+        var duringTime = endTime.diff(now, 'seconds', true);
+        console.log(`${now.format("YYYY-MM-DD HH:mm:ss")} ~ ${endTime.format("YYYY-MM-DD HH:mm:ss")} 共耗时 ${duringTime} 秒`);
     } catch (error) {
         console.error("error", error);
     }

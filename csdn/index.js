@@ -61,6 +61,11 @@ async function indexWithCookie(requestConfig) {
         // 数据保存到本地
         fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
 
+        // 计算总耗时
+        console.log();
+        var endTime = moment();
+        var duringTime = endTime.diff(now, 'seconds', true);
+        console.log(`${now.format("YYYY-MM-DD HH:mm:ss")} ~ ${endTime.format("YYYY-MM-DD HH:mm:ss")} 共耗时 ${duringTime} 秒`);
     } catch (error) {
         console.error("error", error);
     }
@@ -96,8 +101,8 @@ async function parsePagenation() {
  * @param {object} options 
  */
 function syncRequest(options) {
-    return new Promise(function(resolve, reject) {
-        request.get(options, function(error, response, body) {
+    return new Promise(function (resolve, reject) {
+        request.get(options, function (error, response, body) {
             if (error) {
                 reject(error);
             } else {
@@ -174,7 +179,7 @@ function parseCurrent($) {
         result.commentCount += commentCount;
 
         // 当前页正在解析中
-        console.log(`当前页面解析中,一共${atricles.length}篇文章,正在解析第${i+1}篇,标题: ${titile} 阅读数: ${readCount} 评论数: ${commentCount}`);
+        console.log(`当前页面解析中,一共${atricles.length}篇文章,正在解析第${i + 1}篇,标题: ${titile} 阅读数: ${readCount} 评论数: ${commentCount}`);
     }
 
     // 当前页解析完毕
