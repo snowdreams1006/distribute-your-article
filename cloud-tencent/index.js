@@ -151,6 +151,7 @@ async function parseAllPagenationData() {
 
         // 当前分页数据保存到本地
         fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}[${currentPage}].json`, JSON.stringify(responseBody));
+        console.log(`分页数据已经保存至 ./data/${now.format("YYYY-MM-DD")}[${currentPage}].json`);
 
         currentPage++;
     }

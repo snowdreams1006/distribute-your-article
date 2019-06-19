@@ -59,31 +59,15 @@ async function indexWithCookie() {
         fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.html`, indexHtml);
         console.log(`首页已经保存至 ./data/${now.format("YYYY-MM-DD")}.html 如需查看,建议断网访问.`);
 
-        // // 访问首页,解析出分页总数,依次遍历累加
-        // requestConfig.qs = {
-        //     "page": 1
-        // };
+        // 解析分页总数
+        var total = parsePagenationTotal(indexHtml);
 
-        // // 初次访问解析出分页总数,并不计数
-        // var body = await syncRequest(requestConfig);
+        // 解析全部分页数据
+        await parseAllPagenationData(total);
 
-        // // 解析出分页总数,依次遍历访问累加
-        // var total = parseIndex(body);
-        // for (var i = 1; i <= total; i++) {
-        //     requestConfig.qs = {
-        //         "page": i
-        //     };
-
-        //     body = await syncRequest(requestConfig);
-
-        //     // 数据保存到本地
-        //     fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}[${i}].html`, body);
-
-        //     parseCurrent(cheerio.load(body));
-        // }
-
-        // // 数据保存到本地
-        // fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
+        // 统计数据保存到本地
+        fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
+        console.log(`统计数据已经保存至 ./data/${now.format("YYYY-MM-DD")}.json`);
 
         // 计算总耗时
         console.log();
@@ -141,31 +125,34 @@ function isLogin(body) {
 }
 
 /**
- *  解析首页
- * @param {html} body 
+ * 解析全部分页数据
  */
-function parseIndex(body) {
-    // 解析页面结构
-    var $ = cheerio.load(body);
+async function parseAllPagenationData(total) {
+    for (var i = 1; i <= total; i++) {
+        requestConfig.qs = {
+            "page": i
+        };
 
-    // 是否登录
-    if (!isLogin($)) {
-        return console.error("尚未登录,cookie 可能已失效!");
+        // 依次分页查询
+        var body = await syncRequest(requestConfig);
+
+        // 解析当前分页数据
+        parseCurrentPagenationData(body);
+
+        // 数据保存到本地
+        fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}[${i}].html`, body);
+        console.log(`分页数据已经保存至 ./data/${now.format("YYYY-MM-DD")}[${i}].html`);
     }
-
-    // 解析分页信息
-    return parsePagenation($);
 }
 
-
-
 /**
- *  解析分页
+ *  解析分页总数
  * @param {html} body 
  */
-function parsePagenation($) {
+function parsePagenationTotal(body) {
     // 解析尾页
-    var lastPage = ($("#content_area > div.pager").children("a").last().prev().text().trim())* 1 || 1;
+    var $ = cheerio.load(body);
+    var lastPage = ($("#content_area > div.pager").children("a").last().prev().text().trim()) * 1 || 1;
 
     return lastPage;
 }
@@ -174,7 +161,8 @@ function parsePagenation($) {
  *  解析当前页
  * @param {html} body 
  */
-function parseCurrent($) {
+function parseCurrentPagenationData(body) {
+    var $ = cheerio.load(body);
     // 解析文章基本信息
     var atricles = $("#post_list tr");
     for (var i = 1; i < atricles.length; i++) {
@@ -196,7 +184,7 @@ function parseCurrent($) {
         result.readCount += readCount;
 
         // 总体概况
-        console.log(`一共解析出${atricles.length}篇文章,正在解析第${i+1}篇,标题: ${titile} 评论数: ${commentCount} 阅读数: ${readCount}`);
+        console.log(`一共解析出${atricles.length}篇文章,正在解析第${i + 1}篇,标题: ${titile} 评论数: ${commentCount} 阅读数: ${readCount}`);
     }
 
     // 当前页解析完毕
