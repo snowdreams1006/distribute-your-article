@@ -1,6 +1,6 @@
 {
   "name": "cnblogs",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "cnblogs",
   "main": "index.js",
   "scripts": {
@@ -19,6 +19,5 @@
     "cheerio": "^1.0.0-rc.3",
     "moment": "^2.24.0",
     "request": "^2.88.0"
-  },
-  "devDependencies": {}
+  }
 }

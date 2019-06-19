@@ -76,6 +76,11 @@ async function indexWithCookie(requestConfig) {
         // 数据保存到本地
         fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
 
+        // 计算总耗时
+        console.log();
+        var endTime = moment();
+        var duringTime = endTime.diff(now, 'seconds', true);
+        console.log(`${now.format("YYYY-MM-DD HH:mm:ss")} ~ ${endTime.format("YYYY-MM-DD HH:mm:ss")} 共耗时 ${duringTime} 秒`);
     } catch (error) {
         console.error("error", error);
     }

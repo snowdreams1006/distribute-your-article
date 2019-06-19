@@ -2,6 +2,7 @@ var fs = require("fs");
 var moment = require("moment");
 var request = require("request");
 var cheerio = require("cheerio");
+var uuid = require('uuid');
 
 // 日期格式化
 moment.locale("zh-cn");
@@ -11,7 +12,7 @@ var now = moment();
 var cookie = readCookie();
 cookie = JSON.parse(cookie);
 
-console.log("cookie", cookie.jianshu);
+console.log("cookie", cookie.juejin);
 
 // 请求参数
 var requestConfig = {
@@ -56,6 +57,11 @@ async function indexWithCookie(requestConfig) {
         // 请求分页数据
         await requestPagenationData("");
 
+        // 计算总耗时
+        console.log();
+        var endTime = moment();
+        var duringTime = endTime.diff(now, 'seconds', true);
+        console.log(`${now.format("YYYY-MM-DD HH:mm:ss")} ~ ${endTime.format("YYYY-MM-DD HH:mm:ss")} 共耗时 ${duringTime} 秒`);
     } catch (error) {
         console.error("error", error);
     }
@@ -96,7 +102,7 @@ async function requestPagenationData(before) {
     var body = await syncRequest(requestConfig);
 
     // 数据保存到本地
-    fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}-${requestConfig.qs.before}.json`, body);
+    fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}[${uuid.v1()}].json`, body);
 
     // 解析当前分页数据
     before = parseCurrent(body);
