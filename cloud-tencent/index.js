@@ -1,27 +1,21 @@
-var fs = require("fs");
-var moment = require("moment");
-var request = require("request");
-var cheerio = require("cheerio");
+var fs = require('fs');
+var moment = require('moment');
+var request = require('request');
+var cheerio = require('cheerio');
 
 // 日期格式化
-moment.locale("zh-cn");
+moment.locale('zh-cn');
 var now = moment();
 
 // 读取自定义 cookie
-var cookie = readCookie();
-cookie = JSON.parse(cookie);
-
-console.log("cookie", cookie["cloud-tencent"]);
+var cookie = readCookie('cloud-tencent');
 
 // 请求参数
 var requestConfig = {
-    url: "https://cloud.tencent.com/developer/user/2952369/activities",
-    qs: {
-
-    },
+    url: 'https://cloud.tencent.com/developer/user/2952369/activities',
     headers: {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36",
-        "Cookie": cookie["cloud-tencent"]
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36',
+        'Cookie': cookie
     },
     jar: true
 };
@@ -40,8 +34,10 @@ indexWithCookie(requestConfig);
 /**
  * 读取 cookie(自定义 cookie)
  */
-function readCookie() {
-    return fs.readFileSync("../.config").toString();
+function readCookie(cookieKey) {
+    var cookie = fs.readFileSync("../.config").toString();
+    cookie = JSON.parse(cookie);
+    return cookie[cookieKey];
 }
 
 /**
