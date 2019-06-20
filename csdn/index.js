@@ -1,21 +1,19 @@
-var fs = require("fs");
-var moment = require("moment");
-var request = require("request");
-var cheerio = require("cheerio");
+var fs = require('fs');
+var moment = require('moment');
+var request = require('request');
+var cheerio = require('cheerio');
 
 // 日期格式化
-moment.locale("zh-cn");
+moment.locale('zh-cn');
 var now = moment();
 
 // 读取自定义 cookie
-var cookie = readCookie();
-cookie = JSON.parse(cookie);
-
-console.log("cookie", cookie.csdn);
+var cookie = readCookie('csdn');
 
 // 请求参数
 var requestConfig = {
     url: "https://blog.csdn.net/weixin_38171180",
+    method: 'GET',
     headers: {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36",
         "Cookie": cookie.csdn
@@ -31,35 +29,46 @@ var result = {
 };
 
 // 模拟登录直接访问首页
-indexWithCookie(requestConfig);
+indexWithCookie();
 
 /**
  * 读取 cookie(自定义 cookie)
  */
-function readCookie() {
-    return fs.readFileSync("../.config").toString();
+function readCookie(cookieKey) {
+    var cookie = fs.readFileSync("../.config").toString();
+    cookie = JSON.parse(cookie);
+    return cookie[cookieKey];
 }
 
 /**
  * 同步访问首页(自定义 cookie)
+ * 
+ * 渲染流程:分页渲染页面,超过最大分页时报错
  */
-async function indexWithCookie(requestConfig) {
+async function indexWithCookie() {
     try {
-        // 解析出分页总数,依次遍历访问累加
-        var total = await parsePagenation();
-        for (var i = 1; i <= total; i++) {
-            requestConfig.url = `https://blog.csdn.net/weixin_38171180/article/list/${i}`
+        // 解析首页数据
+        var indexHtml = await parseIndexHtml();
 
-            var body = await syncRequest(requestConfig);
+        // 首页页面保存到本地
+        fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.html`, indexHtml);
+        console.log(`首页已经保存至 ./data/${now.format("YYYY-MM-DD")}.html 如需查看,建议断网访问.`);
 
-            // 数据保存到本地
-            fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}[${i}].html`, body);
+        // // 解析出分页总数,依次遍历访问累加
+        // var total = await parsePagenation();
+        // for (var i = 1; i <= total; i++) {
+        //     requestConfig.url = `https://blog.csdn.net/weixin_38171180/article/list/${i}`
 
-            parseCurrent(cheerio.load(body));
-        }
+        //     var body = await syncRequest(requestConfig);
 
-        // 数据保存到本地
-        fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
+        //     // 数据保存到本地
+        //     fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}[${i}].html`, body);
+
+        //     parseCurrent(cheerio.load(body));
+        // }
+
+        // // 数据保存到本地
+        // fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
 
         // 计算总耗时
         console.log();
@@ -69,6 +78,37 @@ async function indexWithCookie(requestConfig) {
     } catch (error) {
         console.error("error", error);
     }
+}
+
+/**
+ * 解析首页
+ */
+async function parseIndexHtml() {
+    // 初次访问解析出分页总数,并不计数
+    var body = await syncRequest(requestConfig);
+
+    // 判断是否登录
+    var loginFlag = isLogin(body);
+    console.log(loginFlag ? '已经登录' : '尚未登录');
+
+    return body;
+}
+
+/**
+ *  模拟同步请求
+ * 
+ * @param {object} options 请求参数
+ */
+function syncRequest(options) {
+    return new Promise(function (resolve, reject) {
+        request(options, function (error, response, body) {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(body);
+            }
+        });
+    });
 }
 
 /**
@@ -94,22 +134,6 @@ async function parsePagenation() {
     total -= 1;
 
     return total;
-}
-
-/**
- *  同步请求
- * @param {object} options 
- */
-function syncRequest(options) {
-    return new Promise(function (resolve, reject) {
-        request.get(options, function (error, response, body) {
-            if (error) {
-                reject(error);
-            } else {
-                resolve(body);
-            }
-        });
-    });
 }
 
 /**
