@@ -56,6 +56,7 @@ async function indexWithCookie() {
 
         // 解析分页总数
         var total = parsePagenationTotal(indexHtml);
+        console.log(`首页解析出总页数: ${total}`);
 
         // 解析全部分页数据
         await parseAllPagenationData(total);
@@ -150,21 +151,11 @@ async function parseAllPagenationData(total) {
 }
 
 /**
- *  是否是最大页码
- * @param {html} $ 
- */
-function isTotal($) {
-    // 若超过最大页码,激活选项卡是动态而不是文章
-    return $(".article-list") && !$(".article-list").html();
-}
-
-
-
-/**
  *  解析当前页
  * @param {html} body 
  */
-function parseCurrent($) {
+function parseCurrentPagenationData(body) {
+    var $ = cheerio.load(body);
     // 解析当前页
     var atricles = $(".article-list div.article-item-box");
     for (var i = 0; i < atricles.length; i++) {
