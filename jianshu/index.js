@@ -1,27 +1,25 @@
-var fs = require("fs");
-var moment = require("moment");
-var request = require("request");
-var cheerio = require("cheerio");
+var fs = require('fs');
+var moment = require('moment');
+var request = require('request');
+var cheerio = require('cheerio');
 
 // 日期格式化
-moment.locale("zh-cn");
+moment.locale('zh-cn');
 var now = moment();
 
 // 读取自定义 cookie
-var cookie = readCookie();
-cookie = JSON.parse(cookie);
-
-console.log("cookie", cookie.jianshu);
+var cookie = readCookie('jianshu');
 
 // 请求参数
 var requestConfig = {
     url: "https://www.jianshu.com/u/577b0d76ab87",
+    method: 'GET',
     qs: {
         "page": 1
     },
     headers: {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36",
-        "Cookie": cookie.jianshu
+        "Cookie": cookie
     },
     jar: true
 };
@@ -35,19 +33,23 @@ var result = {
 };
 
 // 模拟登录直接访问首页
-indexWithCookie(requestConfig);
+indexWithCookie();
 
 /**
  * 读取 cookie(自定义 cookie)
  */
-function readCookie() {
-    return fs.readFileSync("../.config").toString();
+function readCookie(cookieKey) {
+    var cookie = fs.readFileSync("../.config").toString();
+    cookie = JSON.parse(cookie);
+    return cookie[cookieKey];
 }
 
 /**
  * 同步访问首页(自定义 cookie)
+ * 
+ * 渲染流程:初次整体渲染,随后ajax异步加载
  */
-async function indexWithCookie(requestConfig) {
+async function indexWithCookie() {
     try {
         // 解析出分页总数,依次遍历访问累加
         var total = await parsePagenation();
