@@ -150,31 +150,6 @@ async function parseAllPagenationData(total) {
 }
 
 /**
- * 解析分页
- */
-async function parsePagenation() {
-    // 累加访问获取最大分页数据
-    var total = 1;
-    while (true) {
-        requestConfig.url = `https://blog.csdn.net/weixin_38171180/article/list/${total}`
-
-        var body = await syncRequest(requestConfig);
-        var $ = cheerio.load(body);
-        if (!isLogin($)) {
-            return console.error("尚未登录,cookie 可能已失效!");
-        }
-        if (isTotal($)) {
-            break;
-        }
-        total++;
-    }
-    // 最大页码时不该越界
-    total -= 1;
-
-    return total;
-}
-
-/**
  *  是否是最大页码
  * @param {html} $ 
  */
