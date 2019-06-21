@@ -1,27 +1,25 @@
-var fs = require("fs");
-var moment = require("moment");
-var request = require("request");
-var cheerio = require("cheerio");
+var fs = require('fs');
+var moment = require('moment');
+var request = require('request');
+var cheerio = require('cheerio');
 
 // 日期格式化
-moment.locale("zh-cn");
+moment.locale('zh-cn');
 var now = moment();
 
 // 读取自定义 cookie
-var cookie = readCookie();
-cookie = JSON.parse(cookie);
-
-console.log("cookie", cookie.imooc);
+var cookie = readCookie('imooc');
 
 // 请求参数
 var requestConfig = {
     url: "https://www.imooc.com/u/index/articles",
+    method: 'GET',
     qs: {
         "page": 1
     },
     headers: {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36",
-        "Cookie": cookie.imooc
+        "Cookie": cookie
     },
     jar: true
 };
@@ -35,46 +33,41 @@ var result = {
 };
 
 // 模拟登录直接访问首页
-indexWithCookie(requestConfig);
+indexWithCookie();
 
 /**
  * 读取 cookie(自定义 cookie)
  */
-function readCookie() {
-    return fs.readFileSync("../.config").toString();
+function readCookie(cookieKey) {
+    var cookie = fs.readFileSync("../.config").toString();
+    cookie = JSON.parse(cookie);
+    return cookie[cookieKey];
 }
 
 /**
  * 同步访问首页(自定义 cookie)
+ * 
+ * 渲染流程:分页渲染页面,头尾自动防溢出
  */
-async function indexWithCookie(requestConfig) {
+async function indexWithCookie() {
 
     try {
-        // 访问首页,解析出分页总数,依次遍历累加
-        requestConfig.qs = {
-            "page": 1
-        };
+        // 解析首页数据
+        var indexHtml = await parseIndexHtml();
 
-        // 初次访问解析出分页总数,并不计数
-        var body = await syncRequest(requestConfig);
+        // 首页页面保存到本地
+        fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.html`, indexHtml);
+        console.log(`首页已经保存至 ./data/${now.format("YYYY-MM-DD")}.html 如需查看,建议断网访问.`);
 
-        // 解析出分页总数,依次遍历访问累加
-        var total = parseIndex(body);
-        for (var i = 1; i <= total; i++) {
-            requestConfig.qs = {
-                "page": i
-            };
+        // 解析分页总数
+        var total = parsePagenationTotal(indexHtml);
 
-            body = await syncRequest(requestConfig);
+        // 解析全部分页数据
+        await parseAllPagenationData(total);
 
-            // 数据保存到本地
-            fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}[${i}].html`, body);
-
-            parseCurrent(cheerio.load(body));
-        }
-
-        // 数据保存到本地
+        // 统计数据保存到本地
         fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
+        console.log(`统计数据已经保存至 ./data/${now.format("YYYY-MM-DD")}.json`);
 
         // 计算总耗时
         console.log();
@@ -87,12 +80,27 @@ async function indexWithCookie(requestConfig) {
 }
 
 /**
- *  同步请求
- * @param {object} options
+ * 解析首页
+ */
+async function parseIndexHtml() {
+    // 初次访问解析出分页总数,并不计数
+    var body = await syncRequest(requestConfig);
+
+    // 判断是否登录
+    var loginFlag = isLogin(body);
+    console.log(loginFlag ? '已经登录' : '尚未登录');
+
+    return body;
+}
+
+/**
+ *  模拟同步请求
+ * 
+ * @param {object} options 请求参数
  */
 function syncRequest(options) {
     return new Promise(function (resolve, reject) {
-        request.get(options, function (error, response, body) {
+        request(options, function (error, response, body) {
             if (error) {
                 reject(error);
             } else {
@@ -103,59 +111,57 @@ function syncRequest(options) {
 }
 
 /**
- *  解析首页
- * @param {html} body
- */
-function parseIndex(body) {
-    // 解析页面结构
-    var $ = cheerio.load(body);
-
-    // 是否登录
-    if (!isLogin($)) {
-        return console.error("尚未登录,cookie 可能已失效!");
-    }
-
-    // 解析分页信息
-    return parsePagenation($);
-}
-
-/**
  *  是否已登录
- * @param {html} $
+ * 
+ * @param {html} body 页面内容
  */
-function isLogin($) {
+function isLogin(body) {
+    var $ = cheerio.load(body);
     // 已经登录应该停留在手记页面,尚未登录则跳转到登录页面
     var usernameInfo = $("#main .user-info .user-name>span");
-
     var loginFlag = usernameInfo && usernameInfo.text();
-    if (loginFlag) {
-        console.log("已经登录: " + usernameInfo.text());
-
-        return true;
-    } else {
-        console.log("尚未登录: " + body);
-        return false;
-    }
+    return loginFlag;
 }
 
 /**
- *  解析分页
- * @param {html} body
+ *  解析分页总数
+ * @param {html} body 
  */
-function parsePagenation($) {
-    // 解析当前页以及尾页
-    var currentPage = $("#pagenation .page a.active.text-page-tag").text().trim() * 1;
-    var lastPage = $("#pagenation .page a:nth-child(8)").attr("href");
-    lastPage = (lastPage && (lastPage.substr(lastPage.lastIndexOf("=") + 1)) * 1) || currentPage;
+function parsePagenationTotal(body) {
+    // 解析尾页
+    var $ = cheerio.load(body);
+    var lastPage = ($("#pagenation .page a:nth-last-child(3)").text().trim() * 1) || 1;
 
     return lastPage;
+}
+
+/**
+ * 解析全部分页数据
+ */
+async function parseAllPagenationData(total) {
+    for (var i = 1; i <= total; i++) {
+        requestConfig.qs = {
+            "page": i
+        };
+
+        // 依次分页查询
+        var body = await syncRequest(requestConfig);
+
+        // 解析当前分页数据
+        parseCurrentPagenationData(body);
+
+        // 数据保存到本地
+        fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}[${i}].html`, body);
+        console.log(`分页数据已经保存至 ./data/${now.format("YYYY-MM-DD")}[${i}].html`);
+    }
 }
 
 /**
  *  解析当前页
  * @param {html} body
  */
-function parseCurrent($) {
+function parseCurrentPagenationData(body) {
+    var $ = cheerio.load(body);
     // 解析当前页
     var atricles = $("#articlesList div.article-item");
     for (var i = 0; i < atricles.length; i++) {
