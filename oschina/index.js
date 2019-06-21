@@ -1,28 +1,23 @@
-var fs = require("fs");
-var moment = require("moment");
-var request = require("request");
-var cheerio = require("cheerio");
-var CryptoJS = require("crypto-js");
+var fs = require('fs');
+var moment = require('moment');
+var request = require('request');
+var cheerio = require('cheerio');
+var CryptoJS = require('crypto-js');
 
 // 日期格式化
-moment.locale("zh-cn");
+moment.locale('zh-cn');
 var now = moment();
 
 // 读取自定义 cookie
-var cookie = readCookie();
-cookie = JSON.parse(cookie);
-
-console.log("cookie", cookie.oschina);
+var cookie = readCookie('oschina');
 
 // 请求参数
 var requestConfig = {
     url: "https://my.oschina.net/snowdreams1006",
-    qs: {
-
-    },
+    method: 'GET',
     headers: {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36",
-        "Cookie": cookie.oschina
+        "Cookie": cookie
     },
     jar: true
 };
@@ -44,7 +39,7 @@ var userInfo = {
 // login();
 
 // 模拟登录直接访问首页
-indexWithCookie(requestConfig);
+indexWithCookie();
 
 /**
  * 登录
@@ -62,7 +57,7 @@ function login() {
             save_login: 1,
         },
         jar: true
-    }, function(error, response, body) {
+    }, function (error, response, body) {
         if (!error && response.statusCode == 200) {
 
             // 访问个人空间首页
@@ -83,7 +78,7 @@ function index() {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36"
         },
         jar: true
-    }, function(error, response, body) {
+    }, function (error, response, body) {
         if (!error && response.statusCode == 200) {
 
             parseIndex(body);
@@ -94,17 +89,10 @@ function index() {
 }
 
 /**
- * 读取 cookie(自定义 cookie)
- */
-function readCookie() {
-    return fs.readFileSync("../.config").toString();
-}
-
-/**
  *  解析首页
  * @param {html} body 
  */
-function parseIndex2(body) {
+function parseIndex(body) {
     var $ = cheerio.load(body);
 
     // 已经登录会出现设置资料按钮,尚未登录不会出现
@@ -146,42 +134,39 @@ function parseIndex2(body) {
         console.log("commentCount", commentCount);
 
         // 总体概况
-        console.log(`一共解析出${atricles.length}篇文章,正在解析第${i+1}篇,标题: ${titile} 阅读量: ${readCount} 评论数: ${commentCount}`);
+        console.log(`一共解析出${atricles.length}篇文章,正在解析第${i + 1}篇,标题: ${titile} 阅读量: ${readCount} 评论数: ${commentCount}`);
     }
 }
 
 /**
- * 同步访问首页(自定义 cookie)
+ * 读取 cookie(自定义 cookie)
  */
-async function indexWithCookie(requestConfig) {
+function readCookie(cookieKey) {
+    var cookie = fs.readFileSync("../.config").toString();
+    cookie = JSON.parse(cookie);
+    return cookie[cookieKey];
+}
+
+/**
+ * 同步访问首页(自定义 cookie)
+ * 
+ * 渲染流程:初次整体渲染,随后ajax异步加载
+ */
+async function indexWithCookie() {
     try {
-        var body = await syncRequest(requestConfig);
+        // 解析首页数据
+        var indexHtml = await parseIndexHtml();
 
-        // 判断是否登录
-        isLogin(cheerio.load(body));
+        // 首页页面保存到本地
+        fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.html`, indexHtml);
+        console.log(`首页已经保存至 ./data/${now.format("YYYY-MM-DD")}.html 如需查看,建议断网访问.`);
 
-        // 解析出分页总数,依次遍历访问累加
-        var total = await parsePagenation();
-        for (var i = 1; i <= total; i++) {
-            //默认规则分页查询
-            requestConfig.url = "https://my.oschina.net/snowdreams1006/widgets/_space_index_newest_blog";
-            requestConfig.qs = {
-                "catalogId": 0,
-                "q": "",
-                "p": i,
-                "type": "ajax"
-            };
+        // 解析全部分页数据
+        await parseAllPagenationData();
 
-            var body = await syncRequest(requestConfig);
-
-            // 数据保存到本地
-            fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}-[${i}].html`, body);
-
-            parseCurrent(cheerio.load(body));
-        }
-
-        // 数据保存到本地
+        // 统计数据保存到本地
         fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
+        console.log(`统计数据已经保存至 ./data/${now.format("YYYY-MM-DD")}.json`);
 
         // 计算总耗时
         console.log();
@@ -194,40 +179,27 @@ async function indexWithCookie(requestConfig) {
 }
 
 /**
- * 解析分页
+ * 解析首页
  */
-async function parsePagenation() {
-    // 累加访问获取最大分页数据
-    var total = 1;
-    while (true) {
-        //默认规则分页查询
-        requestConfig.url = "https://my.oschina.net/snowdreams1006/widgets/_space_index_newest_blog";
-        requestConfig.qs = {
-            "catalogId": 0,
-            "q": "",
-            "p": total,
-            "type": "ajax"
-        };
+async function parseIndexHtml() {
+    // 初次访问解析出分页总数,并不计数
+    var body = await syncRequest(requestConfig);
 
-        var body = await syncRequest(requestConfig);
-        if (isTotal(cheerio.load(body))) {
-            break;
-        }
-        total++;
-    }
-    // 最大页码时不该越界
-    total -= 1;
+    // 判断是否登录
+    var loginFlag = isLogin(body);
+    console.log(loginFlag ? '已经登录' : '尚未登录');
 
-    return total;
+    return body;
 }
 
 /**
- *  同步请求
- * @param {object} options 
+ *  模拟同步请求
+ * 
+ * @param {object} options 请求参数
  */
 function syncRequest(options) {
-    return new Promise(function(resolve, reject) {
-        request.get(options, function(error, response, body) {
+    return new Promise(function (resolve, reject) {
+        request(options, function (error, response, body) {
             if (error) {
                 reject(error);
             } else {
@@ -238,39 +210,69 @@ function syncRequest(options) {
 }
 
 /**
- *  是否是最大页码
- * @param {html} $ 
+ *  是否已登录
+ * 
+ * @param {html} body 页面内容
  */
-function isTotal($) {
-    // 若超过最大页码,则不再显示文章列表
-    return $(".items .item").length == 0;
+function isLogin(body) {
+    // 已经登录会出现用户个人头像,否则不出现
+    var $ = cheerio.load(body);
+    // 已经登录会出现设置资料按钮,尚未登录不会出现
+    var settingBtn = $("#mainScreen .user-info a.setting-btn");
+    var loginFlag = settingBtn && settingBtn.text();
+    return loginFlag;
 }
 
 /**
- *  是否已登录
- * @param {html} $ 
+ * 解析全部分页数据
  */
-function isLogin($) {
-    // 已经登录会出现设置资料按钮,尚未登录不会出现
-    var settingBtn = $("#mainScreen .user-info a.setting-btn");
+async function parseAllPagenationData() {
+    // 累加访问获取最大分页数据
+    var currentPage = 1;
+    while (true) {
+        //默认规则分页查询
+        requestConfig.url = "https://my.oschina.net/snowdreams1006/widgets/_space_index_newest_blog";
+        requestConfig.qs = {
+            "catalogId": 0,
+            "q": "",
+            "p": currentPage,
+            "type": "ajax"
+        };
 
-    var loginFlag = settingBtn && settingBtn.text();
-    if (loginFlag) {
-        console.log("已经登录: " + settingBtn.text() + "->" + settingBtn.attr("href"));
+        // 依次分页查询
+        var body = await syncRequest(requestConfig);
+        if (isReachLimitTotal(body)) {
+            break;
+        }
 
-        return true;
-    } else {
-        console.log("尚未登录");
+        // 解析当前分页数据
+        parseCurrentPagenationData(body);
 
-        return false;
+        // 当前分页数据保存到本地
+        fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}[${currentPage}].html`, body);
+        console.log(`分页数据已经保存至 ./data/${now.format("YYYY-MM-DD")}[${currentPage}].html`);
+
+        currentPage++;
     }
+}
+
+/**
+ *  是否达到最大分页请求
+ * 
+ * @param {object} body 
+ */
+function isReachLimitTotal(body) {
+    var $ = cheerio.load(body);
+    // 若超过最大页码,则不再显示文章列表
+    return $(".items .item").length == 0;
 }
 
 /**
  *  解析首页
  * @param {html} body 
  */
-function parseCurrent($) {
+function parseCurrentPagenationData(body) {
+    var $ = cheerio.load(body);
     // 解析文章基本信息
     var atricles = $(".items .item");
     for (var i = 0; i < atricles.length; i++) {
@@ -304,7 +306,7 @@ function parseCurrent($) {
         result.commentCount += commentCount;
 
         // 当前页正在解析中
-        console.log(`当前页面解析中,一共${atricles.length}篇文章,正在解析第${i+1}篇,标题: ${title} 阅读量: ${readCount} 评论数: ${commentCount}`);
+        console.log(`当前页面解析中,一共${atricles.length}篇文章,正在解析第${i + 1}篇,标题: ${title} 阅读量: ${readCount} 评论数: ${commentCount}`);
     }
 
     // 当前页解析完毕
@@ -313,26 +315,26 @@ function parseCurrent($) {
     console.log();
 }
 
-function numConvert(num){
-    if(num>=10000){
-      num=Math.round(num/1000)/10+'W';
-    }else if(num>=1000){
-      num=Math.round(num/100)/10+'K';
+function numConvert(num) {
+    if (num >= 10000) {
+        num = Math.round(num / 1000) / 10 + 'W';
+    } else if (num >= 1000) {
+        num = Math.round(num / 100) / 10 + 'K';
     }
     return num;
 }
 
-function numReconvert(numStr){
+function numReconvert(numStr) {
     var unit = numStr.substr(-1);
     var num = numStr;
-    if(unit == "W" || unit == "K"){
-    num = numStr.substr(0,numStr.indexOf(unit));
-    num= parseInt(num);
-if(unit == "W"){
-num=Math.round(num*1000)*10; 
-}else if(unit == "K"){
-num=Math.round(num*100)*10;
-}
+    if (unit == "W" || unit == "K") {
+        num = numStr.substr(0, numStr.indexOf(unit));
+        num = parseInt(num);
+        if (unit == "W") {
+            num = Math.round(num * 1000) * 10;
+        } else if (unit == "K") {
+            num = Math.round(num * 100) * 10;
+        }
     }
 
     return num;
