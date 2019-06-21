@@ -12,10 +12,10 @@ var cookie = readCookie('cnblogs');
 
 // 请求参数
 var requestConfig = {
-    url: "https://i.cnblogs.com/posts",
+    url: 'https://i.cnblogs.com/posts',
     method: 'GET',
     qs: {
-        "page": 1
+        'page': 1
     },
     headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36',
