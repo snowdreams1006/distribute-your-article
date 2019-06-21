@@ -54,21 +54,15 @@ async function indexWithCookie() {
         fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.html`, indexHtml);
         console.log(`首页已经保存至 ./data/${now.format("YYYY-MM-DD")}.html 如需查看,建议断网访问.`);
 
-        // // 解析出分页总数,依次遍历访问累加
-        // var total = await parsePagenation();
-        // for (var i = 1; i <= total; i++) {
-        //     requestConfig.url = `https://blog.csdn.net/weixin_38171180/article/list/${i}`
+        // 解析分页总数
+        var total = parsePagenationTotal(indexHtml);
 
-        //     var body = await syncRequest(requestConfig);
+        // 解析全部分页数据
+        await parseAllPagenationData(total);
 
-        //     // 数据保存到本地
-        //     fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}[${i}].html`, body);
-
-        //     parseCurrent(cheerio.load(body));
-        // }
-
-        // // 数据保存到本地
-        // fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
+        // 统计数据保存到本地
+        fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
+        console.log(`统计数据已经保存至 ./data/${now.format("YYYY-MM-DD")}.json`);
 
         // 计算总耗时
         console.log();
@@ -112,6 +106,50 @@ function syncRequest(options) {
 }
 
 /**
+ *  是否已登录
+ * 
+ * @param {html} body 页面内容
+ */
+function isLogin(body) {
+    var $ = cheerio.load(body);
+    // 已经登录不会出现关注按钮,尚未登录会出现
+    var userAttention = $("#btnAttent");
+    var nologinFlag = userAttention && userAttention.text();
+    return !nologinFlag;
+}
+
+/**
+ *  解析分页总数
+ * @param {html} body 
+ */
+function parsePagenationTotal(body) {
+    // 解析尾页
+    var $ = cheerio.load(body);
+    var lastPage = ($("#pageBox li.js-page-next.ui-pager").prev().text().trim()) * 1 || 1;
+
+    return lastPage;
+}
+
+/**
+ * 解析全部分页数据
+ */
+async function parseAllPagenationData(total) {
+    for (var i = 1; i <= total; i++) {
+        requestConfig.url = `https://blog.csdn.net/weixin_38171180/article/list/${i}`
+
+        // 依次分页查询
+        var body = await syncRequest(requestConfig);
+
+        // 解析当前分页数据
+        parseCurrentPagenationData(body);
+
+        // 数据保存到本地
+        fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}[${i}].html`, body);
+        console.log(`分页数据已经保存至 ./data/${now.format("YYYY-MM-DD")}[${i}].html`);
+    }
+}
+
+/**
  * 解析分页
  */
 async function parsePagenation() {
@@ -145,25 +183,7 @@ function isTotal($) {
     return $(".article-list") && !$(".article-list").html();
 }
 
-/**
- *  是否已登录
- * @param {html} $ 
- */
-function isLogin($) {
-    // 已经登录不会出现关注按钮,尚未登录会出现
-    var userAttention = $("#btnAttent");
 
-    var nologinFlag = userAttention && userAttention.text();
-    if (!nologinFlag) {
-        console.log("已经登录");
-
-        return true;
-    } else {
-        console.log("尚未登录");
-
-        return false;
-    }
-}
 
 /**
  *  解析当前页
