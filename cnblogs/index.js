@@ -116,12 +116,23 @@ function syncRequest(options) {
  * @param {html} body 页面内容
  */
 function isLogin(body) {
-    // 已经登录会出现用户个人头像,否则不出现
     var $ = cheerio.load(body);
     // 已经登录会出现后台管理页面,尚未登录则会自动跳转登录页面
     var userBlog = $("#blog_title > a");
     var loginFlag = userBlog && userBlog.attr("href");
     return loginFlag;
+}
+
+/**
+ *  解析分页总数
+ * @param {html} body 
+ */
+function parsePagenationTotal(body) {
+    // 解析尾页
+    var $ = cheerio.load(body);
+    var lastPage = ($("#content_area > div.pager").children("a").last().prev().text().trim()) * 1 || 1;
+
+    return lastPage;
 }
 
 /**
@@ -143,18 +154,6 @@ async function parseAllPagenationData(total) {
         fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}[${i}].html`, body);
         console.log(`分页数据已经保存至 ./data/${now.format("YYYY-MM-DD")}[${i}].html`);
     }
-}
-
-/**
- *  解析分页总数
- * @param {html} body 
- */
-function parsePagenationTotal(body) {
-    // 解析尾页
-    var $ = cheerio.load(body);
-    var lastPage = ($("#content_area > div.pager").children("a").last().prev().text().trim()) * 1 || 1;
-
-    return lastPage;
 }
 
 /**

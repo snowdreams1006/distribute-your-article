@@ -54,12 +54,8 @@ async function indexWithCookie() {
         fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.html`, indexHtml);
         console.log(`首页已经保存至 ./data/${now.format("YYYY-MM-DD")}.html 如需查看,建议断网访问.`);
 
-        // 解析分页总数
-        var total = parsePagenationTotal(indexHtml);
-        console.log(`首页解析出总页数: ${total}`);
-
         // 解析全部分页数据
-        await parseAllPagenationData(total);
+        await parseAllPagenationData();
 
         // 统计数据保存到本地
         fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}.json`, JSON.stringify(result));
@@ -120,34 +116,38 @@ function isLogin(body) {
 }
 
 /**
- *  解析分页总数
- * @param {html} body 
- */
-function parsePagenationTotal(body) {
-    // 解析尾页
-    var $ = cheerio.load(body);
-    var lastPage = ($("#pageBox li.js-page-next.ui-pager").prev().text().trim()) * 1 || 1;
-
-    return lastPage;
-}
-
-/**
  * 解析全部分页数据
  */
-async function parseAllPagenationData(total) {
-    for (var i = 1; i <= total; i++) {
-        requestConfig.url = `https://blog.csdn.net/weixin_38171180/article/list/${i}`
+async function parseAllPagenationData() {
+    // 累加访问获取最大分页数据
+    var currentPage = 1;
+    while (true) {
+        requestConfig.url = `https://blog.csdn.net/weixin_38171180/article/list/${currentPage}`
 
         // 依次分页查询
         var body = await syncRequest(requestConfig);
+        if (isReachLimitTotal(body)) {
+            break;
+        }
 
         // 解析当前分页数据
         parseCurrentPagenationData(body);
 
-        // 数据保存到本地
-        fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}[${i}].html`, body);
-        console.log(`分页数据已经保存至 ./data/${now.format("YYYY-MM-DD")}[${i}].html`);
+        // 当前分页数据保存到本地
+        fs.writeFileSync(`./data/${now.format("YYYY-MM-DD")}[${currentPage}].html`, JSON.stringify(body));
+        console.log(`分页数据已经保存至 ./data/${now.format("YYYY-MM-DD")}[${currentPage}].html`);
+
+        currentPage++;
     }
+}
+/**
+ *  是否达到最大分页请求
+ * @param {html} body
+ */
+function isReachLimitTotal(body) {
+    var $ = cheerio.load(body);
+    // 若超过最大页码,出现空空如也
+    return !($(".article-list") && $(".article-list").html());
 }
 
 /**
