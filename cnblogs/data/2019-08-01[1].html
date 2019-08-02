@@ -1,1 +1,192 @@
-<!DOCTYPE html><html lang=zh><head><meta charset=utf-8><meta name=viewport content="width=device-width, initial-scale=1, shrink-to-fit=no"><title>用户登录 - 博客园</title><link rel="shortcut icon" href=//common.cnblogs.com/favicon.ico type=image/x-icon><script src="/assets/account/signin-iconfont.js?v=OqUQEkOMap4K9SUw46rBzVZa5oEz9fVF6qthajsHlWk"></script><link rel=stylesheet href="/assets/commons.bundle.css?v=UPreJEwiw2HTkY-G8mCPir29LnJIZ16TE2un1O7lBC4"><link rel=stylesheet href="/assets/shared/_card.css?v=kP6fx_eyLSzFG-2UFGNz3cU2I0ohI-lxjKLFwUQbfR4"><link rel=stylesheet href="/assets/account/signin.css?v=OQC4pMzU7K-SBw0eOIhORW9tPgMtc8t_KMFfauwhOe4"><script src="https://www.recaptcha.net/recaptcha/api.js?hl=zh-CN&amp;render=6LfFqK0UAAAAAAJUJQOnlNcN1hOL_7v4_33LQxGm"></script><script>window.recaptchaOptions={actionName:'Account/SignIn',siteKeyV2:'6Lci1a0UAAAAAA8S7HrKG22MdopUdzM7SVomV1Wm',siteKeyV3:'6LfFqK0UAAAAAAJUJQOnlNcN1hOL_7v4_33LQxGm'};</script><body><div class=center-container><div class="center-body card h-sm-100"><div class=card-body><div class="login-top text-center"><span class=login-title>博客园用户登录</span> <a href="https://www.cnblogs.com/"> <svg class=login-sign><use xlink:href=#icon-login-sign></use></svg> </a><div class=login-info>代码改变世界</div></div><form id=loginForm method=post onsubmit="return false" action="/signin?returnurl=http%3A%2F%2Fi.cnblogs.com%2Fposts%3Fpage%3D1"><div class=form-group><input tabindex=1 class=form-control placeholder=登录用户名 autofocus type=text data-val=true data-val-required=请输入登录用户名 id=LoginName name=LoginName> <span class="invalid-feedback field-validation-valid" data-valmsg-for=LoginName data-valmsg-replace=true></span> <a href=//passport.cnblogs.com/GetUsername.aspx class=txt-forget-sign>忘记登录用户名</a></div><div class=form-group><input tabindex=2 class=form-control placeholder=密码 type=password data-val=true data-val-required=请输入密码 id=Password name=Password> <span class="invalid-feedback field-validation-valid" data-valmsg-for=Password data-valmsg-replace=true></span> <a class=txt-forget-sign href=/resetpassword>忘记密码</a></div><div class="form-check form-remember"><input tabindex=3 type=checkbox data-val=true data-val-required="The 记住我 field is required." id=IsRemember name=IsRemember value=true> <label class=label-remember for=IsRemember>记住我</label></div><button tabindex=4 id=submitBtn type=submit class="btn-login btn btn-primary btn-sm ladda-button px-4" data-style=slide-down> <span class=ladda-label>登录</span> </button> <input type=hidden id=PublicKey name=PublicKey value=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCp0wHYbg/NOPO3nzMD3dndwS0MccuMeXCHgVlGOoYyFwLdS24Im2e7YyhB0wrUsyYf0/nhzCzBK8ZC9eCWqd0aHbdgOQT6CuFQBMjbyGYvlVYU2ZP7kG9Ft6YV6oc9ambuO7nPZh+bvXH0zDKfi02prknrScAKC0XhadTHT3Al0QIDAQAB> <input class=none type=checkbox checked data-val=true data-val-required="The EnableCaptcha field is required." id=EnableCaptcha name=EnableCaptcha value=true><div class=login-footer><div class=ajax-error-box><div class=ajax-error></div></div><span>没有帐户，<a href=/signup>立即注册</a></span></div><input name=__RequestVerificationToken type=hidden value=CfDJ8D8Q4oM3DPZMgpKI1MnYlrm5EiN8xWD4ZNskx8-6CSMWy68deHsPvSzrUwAGYiHgbmdIZwpmCDUQKN7DmVmC5U0bRaKPrlGVFqUDkJecjtnCEMZykXvjREfMCAw8k0fxTJayCff1UD2WAImRK2LZhkQ><input name=IsRemember type=hidden value=false><input name=EnableCaptcha type=hidden value=false></form></div></div></div><script src="/assets/commons.bundle.js?v=AVu9H1QVZ87-fBSaByLYNDxd5moOPcb0nAeUrJbSm0Q"></script><script src="/assets/shared/_withoutnav.js?v=8V_0HHeCa9AFsxqXeXxBoDG27Texk7jEBXz1b4ndcZw"></script><script src="/assets/account/signin.js?v=tl7hYQgkAz7Ac_rLWl4FoVB96DPK28xSxAclnZgMQuM"></script>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>我的随笔 - 博客后台 - 博客园</title>
+    <link rel="stylesheet" href="//common.cnblogs.com/css/bootstrap.min.css" />
+    <link href="/bundles/admin-new.css?v=Ye9IYl3rG1TPa1mMw-tr9jlbN_BMEt9-1G3QChTzFC01" rel="stylesheet"/>
+
+    
+    <script src="//common.cnblogs.com/script/jquery.js"></script>
+    <script src="/bundles/admin-new.js?v=jYDVQVBnHBfuMzq_-8AsHd2JgJvnsks-FazT4Z8WMM41"></script>
+
+    
+</head>
+<body>
+    <div id="top_nav">
+        <div id="left">
+            «  <a href="http://www.cnblogs.com">网站首页</a><a href="http://home.cnblogs.com/">园子</a><a href="http://news.cnblogs.com/">新闻</a><a href="//q.cnblogs.com/">博问</a><a href="//ing.cnblogs.com/">闪存</a><a href="http://wz.cnblogs.com/">收藏</a><a href="http://zzk.cnblogs.com/my?app=Blogpost">搜索</a>
+        </div>
+        <div id="right">
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div id="main">
+        <div id="main_nav"><a href="http://home.cnblogs.com/set/" target="_blank">修改密码</a>|<a href="BlogBackup.aspx">备份</a>|<a href="http://www.cnblogs.com/Skins.aspx" target="_blank">模板</a></div>
+        <div id="main_head">
+            <div id="blog_title"><a href="http://www.cnblogs.com/snowdreams1006/">雪之梦技术驿站</a></div>
+            <div id="SiteTitle"><a href="http://www.cnblogs.com/"><img alt="logo" src="/images/adminlogo.gif" /></a></div>
+        </div>
+        <div class="clear"></div>
+        <div id="main_body">
+            <div id="main_wrap">
+                <div id="main_container">
+                    <div id="tab_nav">
+                        <ul>
+                            <li><a id="TabPosts" href="/posts" class="current_nav">随笔</a></li>
+                            <li><a id="TabArticles" href="/EditArticles.aspx">文章</a></li>
+                            <li><a id="TabDiary" href="/EditDiary.aspx">日记</a></li>
+                            <li><a id="TabFeedback" href="/Feedback.aspx">评论</a></li>
+                            
+                            <li><a id="TabLinks" href="/EditLinks.aspx">链接</a></li>
+                            <li><a id="TabFavorites" href="/EditFavorite.aspx">收藏</a></li>
+                            <li><a id="TabGalleries" href="/EditGalleries.aspx">相册</a></li>
+                            <li><a id="TabFiles" href="/Files.aspx">文件</a></li>
+                            <li><a id="TabConfigure" href="/Configure.aspx">设置</a></li>
+                            <li><a id="TabPreferences" href="/Preferences.aspx">选项</a></li>
+                            
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                    <div id="sub_nav">
+                        
+
+&nbsp;
+                    </div>
+                    <div id="content_area">
+                        <div id="post_list">
+    <table cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <th class="post-title">标题</th>
+            <th class="publish-status">发布状态</th>
+            <th>评论数</th>
+            <th>阅读数</th>
+            <th>操作</th>
+            <th>操作</th>
+        </tr>
+        <tr id="post-row-11222865" >
+            <td class="post-title"><a href="//www.cnblogs.com/snowdreams1006/p/11222865.html" id="post_title_link_11222865">go 学习笔记之初识 go 语言</a>（2019-07-21 21:35）</td>
+            <td>发布</td>
+            <td>0</td>
+            <td>105</td>
+            <td><a href="/EditPosts.aspx?postid=11222865&update=1">编辑</a></td>
+            
+            <td><a href="javascript:void(0)" onclick="return deletePost(11222865)">删除</a></td>
+        </tr>
+        <tr id="post-row-11178948" class="alt">
+            <td class="post-title"><a href="//www.cnblogs.com/snowdreams1006/p/11178948.html" id="post_title_link_11178948">工具资源系列之给 windows 虚拟机装个 mac</a>（2019-07-12 23:22）</td>
+            <td>发布</td>
+            <td>0</td>
+            <td>92</td>
+            <td><a href="/EditPosts.aspx?postid=11178948&update=1">编辑</a></td>
+            
+            <td><a href="javascript:void(0)" onclick="return deletePost(11178948)">删除</a></td>
+        </tr>
+        <tr id="post-row-11068107" >
+            <td class="post-title"><a href="//www.cnblogs.com/snowdreams1006/p/11068107.html" id="post_title_link_11068107">工具资源系列之 github 上各式各样的小徽章从何而来?</a>（2019-06-22 11:05）</td>
+            <td>发布</td>
+            <td>0</td>
+            <td>442</td>
+            <td><a href="/EditPosts.aspx?postid=11068107&update=1">编辑</a></td>
+            
+            <td><a href="javascript:void(0)" onclick="return deletePost(11068107)">删除</a></td>
+        </tr>
+        <tr id="post-row-10955177" class="alt">
+            <td class="post-title"><a href="//www.cnblogs.com/snowdreams1006/p/10955177.html" id="post_title_link_10955177">php 学习笔记之日期时间操作一箩筐</a>（2019-05-31 14:44）</td>
+            <td>发布</td>
+            <td>0</td>
+            <td>24</td>
+            <td><a href="/EditPosts.aspx?postid=10955177&update=1">编辑</a></td>
+            
+            <td><a href="javascript:void(0)" onclick="return deletePost(10955177)">删除</a></td>
+        </tr>
+        <tr id="post-row-10949856" >
+            <td class="post-title"><a href="//www.cnblogs.com/snowdreams1006/p/10949856.html" id="post_title_link_10949856">php 学习笔记之关于时区的那点事</a>（2019-05-30 15:31）</td>
+            <td>发布</td>
+            <td>0</td>
+            <td>191</td>
+            <td><a href="/EditPosts.aspx?postid=10949856&update=1">编辑</a></td>
+            
+            <td><a href="javascript:void(0)" onclick="return deletePost(10949856)">删除</a></td>
+        </tr>
+        <tr id="post-row-10889566" class="alt">
+            <td class="post-title"><a href="//www.cnblogs.com/snowdreams1006/p/10889566.html" id="post_title_link_10889566">php 学习笔记之搭建开发环境(mac版)</a>（2019-05-19 15:58）</td>
+            <td>发布</td>
+            <td>0</td>
+            <td>217</td>
+            <td><a href="/EditPosts.aspx?postid=10889566&update=1">编辑</a></td>
+            
+            <td><a href="javascript:void(0)" onclick="return deletePost(10889566)">删除</a></td>
+        </tr>
+        <tr id="post-row-10869754" >
+            <td class="post-title"><a href="//www.cnblogs.com/snowdreams1006/p/10869754.html" id="post_title_link_10869754">工具资源系列之给 windows 虚拟机装个 ubuntu</a>（2019-05-15 15:34）</td>
+            <td>发布</td>
+            <td>0</td>
+            <td>47</td>
+            <td><a href="/EditPosts.aspx?postid=10869754&update=1">编辑</a></td>
+            
+            <td><a href="javascript:void(0)" onclick="return deletePost(10869754)">删除</a></td>
+        </tr>
+        <tr id="post-row-10868331" class="alt">
+            <td class="post-title"><a href="//www.cnblogs.com/snowdreams1006/p/10868331.html" id="post_title_link_10868331">工具资源系列之给 windows 虚拟机装个 centos</a>（2019-05-15 11:24）</td>
+            <td>发布</td>
+            <td>0</td>
+            <td>52</td>
+            <td><a href="/EditPosts.aspx?postid=10868331&update=1">编辑</a></td>
+            
+            <td><a href="javascript:void(0)" onclick="return deletePost(10868331)">删除</a></td>
+        </tr>
+        <tr id="post-row-10867167" >
+            <td class="post-title"><a href="//www.cnblogs.com/snowdreams1006/p/10867167.html" id="post_title_link_10867167">工具资源系列之给 windows 虚拟机装个 windows</a>（2019-05-15 01:27）</td>
+            <td>发布</td>
+            <td>0</td>
+            <td>78</td>
+            <td><a href="/EditPosts.aspx?postid=10867167&update=1">编辑</a></td>
+            
+            <td><a href="javascript:void(0)" onclick="return deletePost(10867167)">删除</a></td>
+        </tr>
+        <tr id="post-row-10856940" class="alt">
+            <td class="post-title"><a href="//www.cnblogs.com/snowdreams1006/p/10856940.html" id="post_title_link_10856940">工具资源系列之给 windows 装个 vmware 虚拟机</a>（2019-05-13 15:34）</td>
+            <td>发布</td>
+            <td>0</td>
+            <td>58</td>
+            <td><a href="/EditPosts.aspx?postid=10856940&update=1">编辑</a></td>
+            
+            <td><a href="javascript:void(0)" onclick="return deletePost(10856940)">删除</a></td>
+        </tr>
+    </table>
+</div>
+<div class="pager"><a href="/posts" class="p_1 current">1</a><a href="/posts?page=2" class="p_2">2</a><a href="/posts?page=3" class="p_3">3</a><a href="/posts?page=4" class="p_4">4</a><a href="/posts?page=5" class="p_5">5</a><a href="/posts?page=6" class="p_6">6</a><a href="/posts?page=7" class="p_7">7</a><a href="/posts?page=2">Next &gt;</a></div>
+
+                    </div>
+                </div>
+            </div>
+            <div id="left_container">
+                <div id="left_nav">
+                    <h2>操作</h2>
+                    <ul>
+                        <li><a href="/EditPosts.aspx?opt=1">添加新随笔</a></li>
+                        <li><a href="/posts?postConfig=IsDraft" id="nav_draft">草稿箱</a></li>
+                        <li><a href="/Preferences.aspx#Editor">设置默认编辑器</a></li>
+                        <li><a target="_blank" href="http://home.cnblogs.com/group/topic/8550.html">博客客户端</a></li>
+                        <li><a target="_blank" href="/ManageSignature.aspx">博客签名</a></li>
+                        <li><a href="/BlogBackup.aspx?type=1">博客备份</a></li>
+                        <li><a href="/Import.aspx?catid=1">博客搬家</a></li>
+                    </ul>
+                </div>
+                <div id="sidebar_categories">
+                    <h2>分类</h2>
+                    <ul id="post_categories">
+                        <li><a href="/EditCategories.aspx?catid=1">[编辑分类]</a></li>                        
+                    </ul>
+                </div>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div id="footer">
+        <a href="http://www.cnblogs.com/ContactUs.aspx">联系我们</a><a href="http://group.cnblogs.com/forum/public/">反馈问题</a>&copy;2019<a href="http://www.cnblogs.com">博客园</a>/ 代码改变世界
+    </div>    
+</body>
+</html>
