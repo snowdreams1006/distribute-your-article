@@ -1,10 +1,12 @@
 {
   "name": "imooc",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "imooc",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "crawler": "node crawler/crawler.js",
+    "publish": "node publish/publish.js",
+    "start": "node index.js",
   },
   "repository": {
     "type": "git",
