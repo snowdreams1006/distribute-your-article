@@ -6,7 +6,7 @@
   "scripts": {
     "crawler": "node crawler/crawler.js",
     "publish": "node publish/publish.js",
-    "start": "node index.js",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
