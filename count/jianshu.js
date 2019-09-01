@@ -3,28 +3,22 @@ var drillCount = 0;
 $("#list-container .ic-paid1").each(function(idx, ele) {
     drillCount += parseFloat($(ele).parent().text().trim());
 });
-console.log("简书钻: " + drillCount);
-
 // 阅读量
 var readCount = 0;
 $("#list-container .ic-list-read").each(function(idx, ele) {
     readCount += parseInt($(ele).parent().text().trim());
 });
-console.log("阅读量: " + readCount);
-
 // 评论量
 var commendCount = 0;
 $("#list-container .ic-list-comments").each(function(idx, ele) {
     commendCount += parseInt($(ele).parent().text().trim());
 });
-console.log("评论量: " + commendCount);
-
 // 喜欢量
 var recommendCount = 0;
 $("#list-container .ic-list-like").each(function(idx, ele) {
     recommendCount += parseInt($(ele).parent().text().trim());
 });
-console.log("喜欢量: " + recommendCount);
+console.log("简书钻:" + drillCount + ",阅读量:" + readCount + ",评论量:" + commendCount + ",喜欢量:" + recommendCount);
 
 // https://www.jianshu.com/u/577b0d76ab87
 var nickname = $("body > div.container.person > div > div.col-xs-16.main > div.main-top > div.title > a").text();
