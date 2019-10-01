@@ -1,0 +1,417 @@
+{
+    "atricles": [{
+        "titile": "创go学习笔记之10分钟简要理解go语言闭包技术",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/101841082",
+        "content": "闭包是主流编程语言中的一种通用技术,常常和函数式编程进行强强联合,本文主要是介绍 Go 语言中什么是闭包以及怎么理解闭包.\n如果读者对于 Go 语言的闭包还不是特别清楚的话,可以参考上一篇文章 go 学习笔记之仅仅需要一个示例就能讲清楚什么闭包.\n或者也可以直接无视,因为接下来会回顾一下前情概要,..."
+    }, {
+        "titile": "创gitbook入门教程之还在搞公众号互推涨粉?gitbook集成导流工具,轻轻松松躺增粉丝!",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/101423684",
+        "content": "相信大多数博客作者都或多或少有过这样想法: 现在各种平台这么多,想要实现全平台发布就要到处复制粘贴,等我有空一定做统一平台一次性全部解决!\n不知道正在阅读文章的你,有没有这样的想法?\n反正我确实这么想过,甚至 github 上相关项目早已创建,可一直迟迟没有下一步,要么是工作忙,要么是技术储备不够..."
+    }, {
+        "titile": "创go学习笔记之仅仅需要一个示例就能讲清楚什么闭包",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/101177633",
+        "content": "本篇文章是 Go 语言学习笔记之函数式编程系列文章的第二篇,上一篇介绍了函数基础,这一篇文章重点介绍函数的重要应用之一: 闭包\n空谈误国,实干兴邦,以具体代码示例为基础讲解什么是闭包以及为什么需要闭包等问题,下面我们沿用上篇文章的示例代码开始本文的学习吧!\n\n斐波那契数列是形如 1 1 2 3 5..."
+    }, {
+        "titile": "创go学习笔记之学习函数式编程前不要忘了函数基础",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100875542",
+        "content": "越来越多的主流语言在设计的时候几乎无一例外都会参考**函数式特性**( `lambda` 表达式,原生支持 `map,reduce...`）,就连面向对象语言的 `Java8` 也慢慢开始支持函数式编程,所以再不学习函数式编程可能就晚了!"
+    }, {
+        "titile": "创go学习笔记之无心插柳柳成荫的接口和无为而治的空接口",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100682494",
+        "content": "Go 语言的接口设计思想和其他主流的编程语言有所不同,鸭子类型的接口设计让人有种无心插柳柳成荫的不确定性,此外还有空接口这种特殊的存在.任何类型都没法实现空接口却能容纳任何类型,真的是很神奇呢!"
+    }, {
+        "titile": "创明明说好的16g内存卡实际却不足15g?",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100682542",
+        "content": "曾几何时,内存卡和移动硬盘无限风光,享尽人世间的繁华与推崇,慢慢的,开始听不到这方便的讨论了,但江湖上的人知道,关于他们的故事并没有真正消失.只记得那些年的移动硬盘,内存..."
+    }, {
+        "titile": "创go学习笔记之万万没想到宠物店竟然催生出面向接口编程?",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100128310",
+        "content": "自从宠物市场提出了继承的管理理论,很长一段时间一直顺顺利利,这种安定和谐的局面近来被一群急性子的顾客所打破.快点给我准备一批宠物,不管是猫还是狗,只要是宠物就行,快点!"
+    }, {
+        "titile": "创go学习笔记之是否支持以及如何实现继承",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100058818",
+        "content": "熟悉面向对象的小伙伴们可能会知道封装,继承和多态是最主要的特性,为什么前辈们会如此看重这三种特性,真的那么重要吗?\n\n什么是封装\n什么是封装,封装有什么好处以及怎么实现封装?\n相信大多数小伙伴们都有自己的理解,简而言之,言而简之,封装是屏蔽内部实现细节,仅仅对外暴露出有价值接口.\n\n正如平时工作中..."
+    }, {
+        "titile": "创go学习笔记之详细说一说封装是怎么回事",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100047821",
+        "content": "关注公众号[雪之梦技术驿站]查看上篇文章 猜猜看go是不是面向对象语言？能不能面向对象编程？\n\n虽然在上篇文章中,我们通过尝试性学习探索了 Go 语言中关于面向对象的相关概念,更确切的说是关于封装的基本概念以及相关实现.\n但那还远远不够,不能满足于一条路,而是应该尽可能地多走几条路,只有这样才能为..."
+    }, {
+        "titile": "创猜猜看go是不是面向对象语言？能不能面向对象编程？",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100682545",
+        "content": "面向对象编程风格深受广大开发者喜欢,尤其是以 C++, Java 为典型代表的编程语言大行其道,十分流行!有意思的是这两中语言几乎毫无意外都来源于 C 语言,却不同于 C..."
+    }, {
+        "titile": "创go学习笔记之go是不是面向对象语言是否支持面对对象编程?",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100003665",
+        "content": "面向对象编程风格深受广大开发者喜欢,尤其是以 C++, Java 为典型代表的编程语言大行其道,十分流行!\n有意思的是这两中语言几乎毫无意外都来源于 C 语言,却不同于 C 的面向过程编程,这种面向对象的编程风格给开发者带来了极大的便利性,解放了劳动,松耦合,高内聚也成为设计的标准,从而让我们能够..."
+    }, {
+        "titile": "创go学习笔记之数组还是切片都没什么不一样",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/99711364",
+        "content": "Go 的数组和切片本质上并没有太大不同,只要理解了动态数组的实现也就明白了切片的含义.除此之外,Go 语言中没有 set 类型,这也是主流编程语言中十分少见的,不过 map 功能很强大,似乎又没必要存在 set 类型了."
+    }, {
+        "titile": "创go的数组还是切片都没有什么不一样",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100682581",
+        "content": "上篇文章中详细介绍了 Go 的基础语言,指出了 Go 和其他主流的编程语言的差异性,比较侧重于语法细节,相信只要稍加记忆就能轻松从已有的编程语言切换到 Go 语言的编程习..."
+    }, {
+        "titile": "创go学习笔记之值得特别关注的基础语法有哪些",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/99691457",
+        "content": "Go语言的基础语法和其他主流的编程语言相比简单不少,独具一格的特点让刚刚接触到Go语言的新手可能会有些不适应,但只要了解了这些特殊之处,入手Go语言真的很简单!"
+    }, {
+        "titile": "创go学习笔记之有意思的变量和不安分的常量",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/99307925",
+        "content": "如果图片失效,请访问原文 https://mp.weixin.qq.com/s/FBlMixqUjZ76CgMPg8fl6w 或者 https://www.imooc.com/article/290903\n\n首先希望学习 Go 语言的爱好者至少拥有其他语言的编程经验,如果是完全零基础的小白用户,本..."
+    }, {
+        "titile": "创go学习笔记之走进Goland编辑器",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/98749234",
+        "content": "IDE编辑器\n工欲善其事必先利其器,命令行工具虽然能够在一定程度上满足基本操作的需求,但实际工作中总不能一直使用命令行工具进行编码操作吧?\n学习 Go 语言同样如此,为此需要寻找一个强大的 IDE 集成环境帮助我们快速开发,据我所知,市面上比较流行的可能有三个选择:\n\nLiteIDE X : Li..."
+    }, {
+        "titile": "创go学习笔记之工作空间",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/98213393",
+        "content": "搭建好 Go 的基本环境后,现在可以正式开始 Go 语言的学习之旅,初学时建议在默认的 GOPATH 工作空间规范编写代码,基本目录结构包括src,bin,和pkg目录."
+    }, {
+        "titile": "创go学习笔记之环境搭建",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/98078589",
+        "content": "千里之行始于足下,开始 Go 语言学习之旅前,首先要搭建好本地开发环境,然后就可以放心大胆瞎折腾了.\nGo 的环境安装和其他语言安装没什么特别注意之处,下载安装包下一步下一步直到完成,可能唯一需要注意的就是 $GOPATH 环境变量的设置问题.\n不过,简单起见,目前采用默认配置,等到比较熟悉 Go..."
+    }, {
+        "titile": "创go学习笔记之初识go语言",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/96764016",
+        "content": "Go 是 Google 公司推出的静态强类型,编译型,并发型,并具有垃圾回收功能的开源编程语言,Go 出身名门注定不凡!"
+    }, {
+        "titile": "创Windows用户福音|这里有最新版的MacBook,确定不来体验一下?",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100689168",
+        "content": "众说周知, Mac 很好但也很贵,对一般大众而言,漂亮简洁高颜值,对软件开发者而言,方便省心有点贵.好到什么程度?内置大量常用的开发工具,省去了初学者安装配置环境的麻烦,..."
+    }, {
+        "titile": "创工具资源系列之给windows虚拟机装个mac",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/95675077",
+        "content": "众说周知,mac虽好也很贵,漂亮简洁高颜值,方便省心有点贵.\n好到什么程度?\n内置大量常用的开发工具,省去了初学者安装配置环境的麻烦.\n贵到什么程度?\n千儿八百的只能算是乞丐版,精挑细选也要两三万!"
+    }, {
+        "titile": "创github上各式各样的小徽章从何而来?",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100689100",
+        "content": "前言平时大家在在逛 github 时或多或少都看到过项目首页各式各样的小徽章,不知道你是否和我一样好奇这些小徽章都是哪来的呢?首先我们先来一睹为快目前前端开发的三大主流框..."
+    }, {
+        "titile": "创工具资源系列之github上各式各样的小徽章从何而来?",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/93307128",
+        "content": "平时大家在在逛 `github` 时或多或少都看到过项目首页各式各样的小徽章,不知道你是否和我一样好奇这些小徽章都是哪来的呢?"
+    }, {
+        "titile": "创日期时间操作一箩筐(php)",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100689170",
+        "content": "格式化日期时间date: 格式化日期时间场景将当前日期时间或者特定日期时间格式化输出为特定格式的字符串,常用于人性化展示信息.说明返回给定时间戳格式化后所产生的日期时间..."
+    }, {
+        "titile": "创php学习笔记之日期时间操作一箩筐",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/90715934",
+        "content": "格式化日期时间\n\ndate : 格式化日期时间\n\n\n场景\n\n将当前日期时间或者特定日期时间格式化输出为特定格式的字符串,常用于人性化展示信息.\n\n说明\n\n返回给定时间戳格式化后所产生的日期时间字符串,如果没有给出时间戳则默认使用本地当前时间.\n\n备注\n\n\n\n\n\n格式\n说明\n返回值示例\n\n\n\n\nY\n..."
+    }, {
+        "titile": "创php中关于时区的那点事",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100689166",
+        "content": "科普一下什么是时区众所周知,地球绕着太阳转的同时也会自转,因此同一时刻不同地区所接收到太阳照射的情况不同,所以有的地区是日出,有的地区是日落,还有的地区可能是黑夜.既然地..."
+    }, {
+        "titile": "创php学习笔记之关于时区的那点事",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/90698083",
+        "content": "科普一下什么是时区\n众所周知,地球绕着太阳转的同时也会自转,因此同一时刻不同地区所接收到太阳照射的情况不同,所以有的地区是日出,有的地区是日落,还有的地区可能是黑夜.\n既然地球上的不同地区时间不同,那总要有统一的时间刻度才能方便文化科技交流吧,不然大家说的都是当地时间,这样岂不是乱套了?\n有问题就..."
+    }, {
+        "titile": "创mac系统快速搭建php开发环境",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100689163",
+        "content": "Mac 系统默认集成了很多开发工具,其中就包括 php 所需要的一些软件工具.下面我们将搭建最简单的 php 开发环境,每一步都会验证上一步的操作结构,请一步一步跟我一起..."
+    }, {
+        "titile": "创php学习笔记之搭建开发环境(mac版)",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/90343475",
+        "content": "Mac 系统默认集成了很多开发工具,其中就包括 php 所需要的一些软件工具.\n下面我们将搭建最简单的 php 开发环境,每一步都会验证上一步的操作结构,请一步一步跟我一起搭建吧!\nweb 服务器之 apache\napache 是一款 web 服务器,用于运行 php 文件,除了 apache 外..."
+    }, {
+        "titile": "载看过gitbash的朋友圈才知道cmd为啥会呵呵一笑",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100689156",
+        "content": "脚本之家你与百万开发者在一起曾以为git bash能够完全取代cmd,谁知道cmd却投给我一个鄙视的眼神!git bash确实能够在一定程度上替代cmd..."
+    }, {
+        "titile": "创给windows虚拟机装个windows",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100689158",
+        "content": "前面我们已经介绍了如何在 Windows 宿主机安装 VMware 虚拟机,这节我们将利用安装好的 VMware 软件安装 Windows 系统.前情回顾虚拟机是相对于真..."
+    }, {
+        "titile": "创给windows虚拟机装个centos",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100689160",
+        "content": "前面我们已经介绍了如何在 Windows 宿主机安装 VMware 虚拟机,这节我们将利用安装好的 VMware 软件安装 centos 系统.前情回顾由于大多数人使用的..."
+    }, {
+        "titile": "创给windows虚拟机装个ubuntu",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100689162",
+        "content": "前面我们已经介绍了如何在 Windows 宿主机安装 VMware 虚拟机,这节我们将利用安装好的 VMware 软件安装 Ubuntu 系统.前情回顾虚拟机为我们在 W..."
+    }, {
+        "titile": "创工具资源系列之给windows虚拟机装个ubuntu",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/90237682",
+        "content": "前面我们已经介绍了如何在 Windows 宿主机安装 VMware 虚拟机,这节我们将利用安装好的 VMware 软件安装 Ubuntu 系统.\n\n前情回顾\n虚拟机为我们在 Windows 宿主机体验别的系统提供了可能,虚拟机的强大之处在于我们可以自由安装任意操作系统,不管是同款 Windows ..."
+    }, {
+        "titile": "创工具资源系列之给windows虚拟机装个centos",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/90232435",
+        "content": "前面我们已经介绍了如何在 Windows 宿主机安装 VMware 虚拟机,这节我们将利用安装好的 VMware 软件安装 centos 系统.\n\n前情回顾\n由于大多数人使用的 Windows 电脑而工作中可能需要一台 centos 电脑,如果条件允许的话,一般公司会有相应的测试服务器.\n但是,如..."
+    }, {
+        "titile": "创工具资源系列之给windows虚拟机装个windows",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/90225260",
+        "content": "前面我们已经介绍了如何在 Windows 宿主机安装 VMware 虚拟机,这节我们将利用安装好的 VMware 软件安装 Windows 系统.\n\n前情回顾\n虚拟机是相对于真实的物理机而言的概念,是在我们当前正在使用的计算机基础上,通过软件或硬件的方式创造的新的计算机.\n本文主要介绍的是 VMw..."
+    }, {
+        "titile": "创给你的计算机一种全新的体验",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100689080",
+        "content": "如果长时间处于同一种环境,慢慢得我们会觉得有些无聊,所以适当地出去走走看看外面的世界能带给我们不一样的体验.所以,何不出去走走,看看另一个世界?然而,平时需要工作很难抽身..."
+    }, {
+        "titile": "创github入门教程之github访问速度太慢怎么办",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/90144036",
+        "content": "github 是全世界最流行的开源项目托管平台,其代表的开源文化从根本上改变了软件开发的方式.\n基本上所有的需求都能从 github 上或多或少找到现成的实现方案,再也不用重头开始造轮子而是自定义轮子!\n然而,有时候国内访问 https://github.com/ 速度太慢,如何加速访问 gith..."
+    }, {
+        "titile": "载从gitbash命令行中窥探人生",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100689104",
+        "content": "脚本之家你与百万开发者在一起众所周知，现实世界和计算机世界是不同的，但是计算机作为人类对现实世界的抽象模拟，在一定程度上，具备了现实世界的基本特征，本文将以哲学角度对比分..."
+    }, {
+        "titile": "创gitbook入门教程之解决windows热加载失败问题",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/89975512",
+        "content": "破镜如何贴花黄\n\ngitbook 在 Windows 系统无法热加载,总是报错!\n\ngitbook 是一款文档编写利器,可以方便地 markdown 输出成美观优雅的 html ,gitbook serve 启动服务器后,原来相貌平平的 markdown 丑小鸭摇身一变就成了倾国倾城的 html ..."
+    }, {
+        "titile": "创git本是别人家的孩子,windows用户却不干了",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100689152",
+        "content": "别人家的孩子以下故事,纯属虚构,如有雷同,绝不可能!git 是一个思维敏捷做事可靠的好管家,什么事交给他都很放心,文件再也不用担心丢失了,还得记住文件内容的更改变化.可惜..."
+    }, {
+        "titile": "创gitbash如何扩展支持tree命令",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100689153",
+        "content": "前情概要git 自从迁移到 windows 系统后,日子过得还算潇洒自在,自己不仅有漂亮的命令行工具还有 windows小伙伴喜闻乐见的图形化工具.然而, git bas..."
+    }, {
+        "titile": "创git入门教程之gitbash竟然不支持tree命令",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/89844386",
+        "content": "开门见山\ngit bash 是 Windows 用户安装 git 时默认安装的命令行工具,不仅界面漂亮功能也不错,大多数情况下可以替代 Windows 原生的 cmd 命令行.\n然而,git bash 命令行不是万金油,并不能完全替代 cmd ,详情请参考 mintty 官网的相关说明.\n\n\nmi..."
+    }, {
+        "titile": "创工具资源系列之给虚拟机装个ubantu",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/89437595",
+        "content": "前文我们已经讲解了如何在 mac 系统上安装虚拟机软件,这节我们接着讲解如何利用虚拟机安装 Ubuntu 镜像.\n安装镜像的大致步骤基本相同,只不过是配置项略显不同而已,如果需要安装其他系统镜像,请参考另外两篇教程.\n下载镜像\n\nUbuntu 操作系统下载: https://www.ubuntu...."
+    }, {
+        "titile": "创工具资源系列之给虚拟机装个centos",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/89436145",
+        "content": "前文我们已经讲解了如何在 mac 系统上安装虚拟机软件,这节我们接着讲解如何利用虚拟机安装 centos 镜像.\n安装镜像的大致步骤基本相同,只不过是配置项略显不同而已,如果需要安装其他系统镜像,请参考另外两篇教程.\n下载镜像\n\ncentos 操作系统下载: https://www.centos...."
+    }, {
+        "titile": "创工具资源系列之给虚拟机装个windows",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/89432041",
+        "content": "前面我们介绍了如何在 mac 宿主机安装 VMware 虚拟机软件,本节我们将继续介绍如何给虚拟机安装镜像,切换不同的操作系统.\n\nVMware 软件是容器,镜像是内核,这里的镜像指的是操作系统.\n\n下载镜像\n\nwindows 操作系统下载: https://msdn.itellyou.cn/\n\n..."
+    }, {
+        "titile": "创工具资源系列之给mac装个虚拟机",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/89428586",
+        "content": "mac 系统安装虚拟机目前有两种主流软件,一种是 Parallels Desktop ,另一种是 vmware.\n本教程选用的是 vmware ,因为我之前 windows 上安装的虚拟机软件就是vmware,所以当然选择熟悉的方式鼓捣 mac 虚拟机了啊!\n如果你没听说过虚拟机,可能你走错门了,..."
+    }, {
+        "titile": "创关于写作那些事之我该选择哪种格式",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/89322741",
+        "content": "markdown和富文本\n不知道你是否留意过平时写作时的编辑器,有的是 markdown 编辑器,有的是各种富文本编辑器,到底选择哪一个相信你有自己的判断.\n如果只是在某一家平台上写作,哪一种编辑器都无所谓,只要你喜欢就好.\n可是如果你需要同时发布到各个平台呢?此时,真的需要停下来思考一下,我该使..."
+    }, {
+        "titile": "创github告诉我构建失败,然后呢?",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100689145",
+        "content": "The page build failed for themasterbranch with the following error问题描述看到这封邮件,一脸懵逼,本..."
+    }, {
+        "titile": "创关于写作那些事之如何写作",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/89298681",
+        "content": "越来越多的人想写个人博客或者打算做自媒体,笔者也是一样.\n最近在学习如何写博客,分享下创作经历,避免走弯路.\n首先在于定位,不同的定位决定了不同的平台.由于笔者分享的大多是技术类博客,所以主战场是各大主流的技术类博客论坛,当然还搭建了自己的官网.\n考虑到前期仅仅是分享技术博客,无需购买专门的服务器..."
+    }, {
+        "titile": "创关于写作那些事之利用js统计各大博客阅读量",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/89281911",
+        "content": "在日常文章数据统计的过程中,纯手动方式已经难以应付,于是乎,逐步开始了程序介入方式进行统计.\n在上一节中,探索利用 csv 文件格式进行文章数据统计,本来以为能够应付一阵子,没想到仅仅一天我就放弃了.\n原因还不是因为我懒,需要复制文章内容,然后整理成特定的 csv 格式,最后利用已编写的 java..."
+    }, {
+        "titile": "创关于写作那些事之github告诉我构建失败,然后呢?",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/89227515",
+        "content": "The page build failed for the master branch with the following error\n问题描述\n\n看到这封邮件,一脸懵逼,本地运行 gitbook 服务是正常渲染的,控制台并没有任何报错,谁知道推送到 github 时就报错了!\n登录到 gith..."
+    }, {
+        "titile": "创关于写作那些事之终于还是无法忍受纯人工统计数据",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/89207820",
+        "content": "背景\n作为正在探索如何写作并发表到各大博客平台的新人,目前虽然已基本弄清写作和发表的基本流程,但是离打造个人知名度还差很大很大一段距离.\n尤其处于新手阶段,需要的更是自信与外界的积极反馈,看着各平台日益增长的阅读量和粉丝量,心中自然不甚欣喜.\n但是,持续的技术输出能否坚持下去很大程度上靠的是外界的..."
+    }, {
+        "titile": "创gitbook入门教程之主题插件",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/89166435",
+        "content": "目前 gitbook 提供三类文档: Book 文档,API 文档和 FAQ 文档.\n其中,默认的也是最常使用的就是 Book 文档,如果想要了解其他两种文档模式,需要引入相应的主题插件.\n\n官方主题插件文档: https://toolchain.gitbook.com/themes/\n\nBook..."
+    }, {
+        "titile": "创gitbook入门教程之发布电子书",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/89116243",
+        "content": "输出目标文件\n\n语法格式: gitbook build [book] [output]\n\n默认情况下,gitbook 输出方式是静态网站,其实 gitbook 的输出方式有三种: website, json,和 ebook.\n只不过另外两种不是很常用,更多情况下我们是使用静态网页搭建个人官网,或托..."
+    }, {
+        "titile": "创gitbook入门教程之导出电子书",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/89077006",
+        "content": "gitbook 既可以将源码文件单独输出,也可以仅输出单个文件,常见的导出电子书格式主要有三种(ePub, Mobi, PDF),而这三种格式都依赖于系统本身提供的 ebook-convert 工具.\n\n安装依赖\n如果直接运行 gitbook pdf 相关命令,可能会报错,提示需要安装 ebook..."
+    }, {
+        "titile": "创gitbook入门教程之实用插件(持续更新)",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100689129",
+        "content": "disqus评论插件discus 是一款集成评论的插件,可以为静态网站添加动态评论,让你的网站动起来!遗憾的是, discus 插件只有 FQ 才能正常使用,暂时没找到..."
+    }, {
+        "titile": "创gitbook入门教程之实用插件(新增3个插件)",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/89059127",
+        "content": "disqus 评论插件\ndiscus 是一款集成评论的插件,可以为静态网站添加动态评论,让你的网站动起来!\n\n\n遗憾的是,discus 插件只有 FQ 才能正常使用,暂时没找到其他较好的替代方案.\n\n注册 disqus.com 账号\ngitbook 集成 disqus 插件中最重要的配置项就是注册..."
+    }, {
+        "titile": "创gitbook入门教程之插件介绍",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/89045692",
+        "content": "插件是 gitbook 的扩展功能,很多炫酷有用的功能都是通过插件完成的,其中插件有官方插件和第三方插件之分.\n推荐官方插件市场 https://plugins.gitbook.com/ 寻找或下载相应的插件.\n\n当然也可以去 npm 市场搜索 gitbook 插件,根据 gitbook 插件规范..."
+    }, {
+        "titile": "创使用gitbook.com在线开发电子书",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100689127",
+        "content": "gitbook 官网是官方提供的图书托管的在线平台,分为新版官网(需要FQ) https://www.gitbook.com/ 和旧版官网(无需FQ) https://l..."
+    }, {
+        "titile": "创gitbook入门教程之常用命令详解",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/89042431",
+        "content": "高级进阶\n不论是 gitbook-cli 命令行还是 gitbook editor 编辑器都离不开 gitbook 命令的操作使用,所以再次了解下常用命令.\n注意 gitbook-cli 是 gitbook 的脚手架工具,是 gitbook 的扩展功能,同时着管理 gitbook.\n查看 gitb..."
+    }, {
+        "titile": "创gitbook入门教程之使用gitbook.com在线开发电子书",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/89037209",
+        "content": "gitbook 官网是官方提供的图书托管的在线平台,分为新版官网(需要FQ) https://www.gitbook.com/ 和旧版官网(无需FQ) https://legacy.gitbook.com 两个网站.\n目前均正常提供服务,但令人遗憾的是,两个网站的信息相互独立,而且现在注册的账号默..."
+    }, {
+        "titile": "载使用gitbook-editor编辑器开发电子书",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100689124",
+        "content": "亲测,目前已不再支持旧版 gitbook-editor 编辑器,而官网也没有相应的新版编辑器,如果哪位找到了新版编辑器,还望告知!现在注册 gitbook 账号会默认重定..."
+    }, {
+        "titile": "创gitbook入门教程之使用gitbook-editor编辑器开发电子书",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/89035364",
+        "content": "亲测,目前已不再支持旧版 gitbook-editor 编辑器,而官网也没有相应的新版编辑器,如果哪位找到了新版编辑器,还望告知!\n\n现在注册 gitbook 账号会默认重定向到 新版官网,而 旧版官网 的账号应该是可以正常使用的,前提是你必须之前注册过.\n\n遗憾的是,最新注册的账号是无法使用 g..."
+    }, {
+        "titile": "创使用gitbook-cli开发电子书",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100689078",
+        "content": "gitbook 生成电子书主要有三种方式:gitbook-cli命令行操作,简洁高效,适合从事软件开发的相关人员.gitbook-editor编辑器操作,可视化编辑,..."
+    }, {
+        "titile": "创gitbook入门教程之使用gitbook-cli开发电子书",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88996749",
+        "content": "创作你专属的电子书,给我一个命令行就够了!"
+    }, {
+        "titile": "创gitbook入门教程之快速体验",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88962049",
+        "content": "本文主要介绍三种使用 `gitbook` 的方式,分别是 `gitbook` 命令行工具,`Gitbook Editor` 官方编辑器和 `gitbook.com` 官网.\n\n总体来说,三种途径适合各自不同的人群,找到适合自己的方式就好,基本操作流程都是一样的."
+    }, {
+        "titile": "创gitbook入门教程之环境要求",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88946185",
+        "content": "`gitbook` 基于 `node.js` 开发环境,因此首先要安装好 [nodejs](https://nodejs.org/en/) 环境,其次再使用 `node.js` 提供的 `npm` 包管理工具来安装 `gitbook`.\n\n只需运行 `sudo npm install -g git..."
+    }, {
+        "titile": "创gitbook入门教程之前置知识",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88928403",
+        "content": "`markdown` 是一种简化的 `html` 语法,相比于 `txt` 无格式文本更强大.\n`git` 是全世界*最先进*的**分布式版本控制系统**,帮助项目更好地进行管理,支持版本历史管理和多人写作管理等功能."
+    }, {
+        "titile": "创gitbook入门教程之gitbook简介",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88912236",
+        "content": "gitBook 是一个基于node.js的命令行工具,使用 github/git 和 markdown/asciiDoc 构建精美的电子书.\ngitbook 支持输出静态网页和电子书等多种格式,其中默认输出静态网页格式.\ngitbook 不仅支持本地构建电子书,而且可以托管在 gitbook 官网..."
+    }, {
+        "titile": "翻git入门教程之备忘录[译]",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88908927",
+        "content": "备忘录[译]\n创建 | Create\n克隆一个已存在的仓库 | Clone an existing repository\ngit clone git@github.com:snowdreams1006/snowdreams1006.github.io.git\n\n创建一个新的本地仓库 | Creat..."
+    }, {
+        "titile": "创git入门教程之知识速查",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88894887",
+        "content": "知识速查\n创建版本库\n初始化项目 git init\n从零开始创建项目\n示例\ngit init \n\n克隆项目 git clone\n将已有项目拷贝到本地\n示例\ngit clone git@github.com:snowdreams1006/snowdreams1006.github.io.git\n\n添..."
+    }, {
+        "titile": "创git入门教程之github教程",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100689097",
+        "content": "github 教程github 是一个基于 git 的代码托管平台,是平时工作学习的好帮手,学会如何用好 github 网站能够帮助我们更好分享代码或者与其他开发人员合作..."
+    }, {
+        "titile": "创git入门教程之git私服搭建教程",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100689119",
+        "content": "git 私服搭建教程前几节我们的远程仓库使用的是 github 网站,托管项目大多是公开的,如果不想让任何人都能看到就需要收费,而且 github 网站毕竟在国外,访问速..."
+    }, {
+        "titile": "创git入门教程之忽略文件",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88879786",
+        "content": "忽略文件\n“并不是所有的牛奶都叫特仑苏”,在版本控制系统中也有相似的表达,那就是\"并不是所有的文件都需要提交\".\n有的是因为没必要提交,比如日志文件,系统缓存文件等,有的是因为不能提交,比如个人隐私文件,付费文档等.\n正常来说,这些文件都是不应该被提交到版本库,倘若一不留神提交..."
+    }, {
+        "titile": "创git入门教程之个性化git",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88849707",
+        "content": "前情概要\n初识 git 时,我们就已经接触过 git 的基本配置,使用 git config 命令配置用户名和邮箱:\n# 配置当前项目(`local`)的用户名(`snowdreams1006`)\ngit config --local user.name \"snowdreams1006&..."
+    }, {
+        "titile": "创git入门教程之里程碑式标签",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88834234",
+        "content": "\"春风得意马蹄疾,一日看尽长安花\",对于项目也是如此,最值得期待的恐怕就要数**新版本**发布时刻了吧?"
+    }, {
+        "titile": "创git入门教程之本地和远程仓库的本质",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88809078",
+        "content": "**本地仓库**和**远程仓库**在本质上没有太大区别,只不过一个是本地电脑,一个是远程电脑.\n\n远程仓库不一定非得是 `github` 那种专门的\"中央服务器\",甚至局域网的另外一台电脑也可以充当\"中央服务器\"的角色,因为它存在的最初目的只是方便大家**交..."
+    }, {
+        "titile": "创git入门教程之协同开发",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88780426",
+        "content": "前面我们已经介绍过远程仓库的相关概念,不过那时并没有深入探讨,只是讲解了如何创建远程仓库以及推送最新工作成果到远程仓库,实际上远程仓库对于团队协同开发很重要,不仅仅是团队协同开发的基础,也是代码备份的保障手段,现在我们先简单回忆下相关概念,以便为接下来的协同开发做好铺垫!\n远程仓库和远程分支\n远程..."
+    }, {
+        "titile": "创git入门教程之变基合并",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88770923",
+        "content": "`git rebase` 变基合并分支,实际上就是取出一系列的提交版本并“复制”到目标版本,从而形成一条新的提交历史线.\n比如我们想要把 `bugFix` 分支里的工作直接移到 `master` 分支上,移动以后会使得两个分支的功能**看起来像**是按顺序开发,但实际上它们是**并行开发**的,这..."
+    }, {
+        "titile": "创git入门教程之紧急修复",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88745039",
+        "content": "和往常一样,每个人团队开发者都在自己的本地分支上进行日常工作,相互独立又相互联系,一直以来相安无事,可是某天下午,上级领导突然急冲冲的打电话告诉你线上出bug了,需要你紧急修复,下班之前必须解决!\n我们天生就是创造 bug 的特殊群体,每天都在和各种各样的 bug 打交道,早已经习惯了这样的工作节..."
+    }, {
+        "titile": "创git入门教程之分支策略",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88706125",
+        "content": "默认情况下合并分支常常直接使用 git merge 命令,是最方便快速的合并方法.其实这种情况下 git 采用的是 fast forward 模式,特点是删除分支后,会丢失分支信息,好像从来没存在该分支一样,而我们推荐的是recursive 模式,能够保留分支的版本记录.\n递归模式(recursi..."
+    }, {
+        "titile": "创git入门教程之创建本地仓库",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100689109",
+        "content": "实战 gitgit 是一款分布式版本控制系统,可以简单概括: 不要把鸡蛋放在一个篮子里,你的一举一动都在监视中.实战场景你作为某项目的其中一员或者负责人,和小伙伴们一起开..."
+    }, {
+        "titile": "创git入门教程之冲突合并",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88691119",
+        "content": "如果足够幸运的话,团队成员互不影响,彼此相安无事,大家各自基于 master 分支的某个 commit 创建自己的分支,平时在分支上独立工作,等到一段时间后再合并 merge 到 master 分支,这样一样 master 作为各个功能的集大成者,最终完成项目.\n然而事情总不是一帆风顺的,团队协作..."
+    }, {
+        "titile": "创git入门教程之分支总览",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88655785",
+        "content": "分支就是一条独立的时间线,既有分支,必有主干,正如一棵树谈到树枝,必有树干一样的道理.我们先前对git 的全部操作默认都是在主干上进行的,这个主干也是一种特殊的分支,名为 master 分支.\n无论是穿越历史还是撤销更改,我们都或多或少接触过时间线,git 管理的版本串在一起就组成了这个时间线,其..."
+    }, {
+        "titile": "创git入门教程之分支管理",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88655760",
+        "content": "背景\n什么是分支?简单地说,分支就是两个相对独立的时间线,正常情况下,独立的时间线永远不会有交集,彼此不知道对方的存在,只有特定情况下,两条时间线才会相遇,因为相遇,所以相知,因为相知,所以改变!\n正如分支对于科幻电影来说是一个很好的卖点,关于分支的话题完全可以开启新的题材,对于这点相信不少科幻迷..."
+    }, {
+        "titile": "创git入门教程之远程仓库",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88633659",
+        "content": "远程仓库\n如果说本地仓库已经足够个人进行版本控制了,那么远程仓库则使多人合作开发成为可能.\n如果你只是打算自己使用git,你的工作内容不需要发布给其他人看,那就用不到远程仓库的概念.\ngit 是分布式版本控制系统,分布式意味着同一个git 仓库 可以部署在不同的机器上,正如&quot;鸡生..."
+    }, {
+        "titile": "创git入门教程之删除文件",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88615229",
+        "content": "删除文件\n回忆一下文件的常见操作,新增文件,修改文件,删除文件等,新增和修改文件都单独讨论过,现在我们来研究一下如何删除文件.\n你可能会说删除文件还不简单啊,直接 rm -rf &amp;amp;lt;file&amp;amp;gt; 即可,但是这仅仅是本地文件被删除了,对于 gi..."
+    }, {
+        "titile": "创git入门教程之撤销更改",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88594097",
+        "content": "撤销更改\n相信你已经了解了 git 的基本概念,也清楚了工作区,暂存区和版本库的关系,现在让我们用所学的知识继解决实际问题吧!\n背景\n正常看得见的目录是我们最为熟悉的工作区,在工作中不可能总是100%的精力,难免会犯错,尤其是下午犯困,晚上加班更是如此.下面列举了常见的一些场景\n\n场景一: 工作区..."
+    }, {
+        "titile": "创git入门教程之版本控制",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88566376",
+        "content": "版本控制\n我们知道 git 是分布式版本控制系统,所以称被控制对象是版本本身没错,但是从git 命令中发现,并没有版本这个名词,有的只是commit,所以前几节我一直称其为提交.\n为了避免后续教程引发歧义,特意说明,无论是版本也好,提交也罢,都是中文翻译而已,不必太过较真,直接原汁原味称commi..."
+    }, {
+        "titile": "创git入门教程之基本概念",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88547531",
+        "content": "基本概念\n了解工作区,暂存区和版本库的区别和联系有助于我们更好理解 git 的工作流程,了解命令的操作意图.\n\ngit 和其他版本控制系统如 svn 的不同之处就是有暂存区的概念.\n\n基本概念\n\n工作区 | Working Directory\n\n正常情况下能看到的目录(不包括隐藏文件),也就是用户..."
+    }, {
+        "titile": "创git入门教程之回到过去",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88525949",
+        "content": "回到过去\n背景\n现在你已经掌握git的基本操作了,文件发生更改首先使用 git add 添加更改,然后 git commit 提交全部更改,当本地文件再次发生更改时,仍然需要git add 和 git commit 两步操作,中途如何想查看文件是否发生更改,使用git status 查看版本库状态..."
+    }, {
+        "titile": "创git入门教程之版本管理",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88414522",
+        "content": "版本管理\n背景\n在上一节中我们已经成功创建版本库并且已经添加test.txt等文件,这一节我们继续讲解如何进行版本控制.\n首先我们先查看test.txt 文件有什么内容吧!\n# 查看文件内容\n$ cat test.txt\ngit test\ngit init\ngit diff \n$\n\n接下来模拟正常..."
+    }, {
+        "titile": "创git入门教程之本地仓库",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88390279",
+        "content": "本地仓库\n背景\n创建工作目录\n平时工作时我们习惯对文档分门别类进行管理,.doc .txt 等文本类型的文件习惯存在 doc文件下,开发java js 等源代码文件存在在 src 目录下,这一点很好理解,那么讲解 git的项目我们也要创建一个文件夹,姑且新建一个demo的文件夹吧!\n# 在工作空间..."
+    }, {
+        "titile": "创git入门教程之实战git",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88390244",
+        "content": "实战 git\ngit 是一款分布式版本控制系统,可以简单概括: 不要把鸡蛋放在一个篮子里,你的一举一动都在监视中.\n实战场景\n你作为某项目的其中一员或者负责人,和小伙伴们一起开发,大家既有着各自分工互不干扰,也有着相互合作,最终每个人的劳动成果汇聚成最后的项目,愉快完成项目!\n要求\n\n理解 git..."
+    }, {
+        "titile": "创git入门教程之配置git",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88380468",
+        "content": "配置 git\n安装完成后,还需要最后一步配置就可以愉快使用了,在命令行输入：\ngit config --global user.name &quot;your username&quot;\ngit config --global user.email &quot;examp..."
+    }, {
+        "titile": "创git入门教程之安装git",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88369555",
+        "content": "安装 git\ngit 目前支持 Linux/Unix、Solaris、Mac和 Windows 平台上运行,根据自身环境选择安装.\nLinux 系统\nlinux 系统安装软件大致有两种途径,一种是利用安装包管理工具安装,另一种采用源码包安装方式.\n安装前先确认下是否之前已安装过,在命令行窗口输入g..."
+    }, {
+        "titile": "创markdown语法不能发表文章吗",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/100689088",
+        "content": "首先说明一下为什么提出这个问题，了解编程的小伙伴们可能知道markdown，不了解的人可能也或多或少接触过这种格式。软件的产品说明，使用说明等基本上都是采用ma..."
+    }, {
+        "titile": "创git入门教程之git私服搭建教程",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88353019",
+        "content": "git 私服搭建教程\n前几节我们的远程仓库使用的是 github 网站,托管项目大多是公开的,如果不想让任何人都能看到就需要收费,而且 github 网站毕竟在国外,访问速度太慢,基于上述两点原因,我们有必要搭建自己的 git 服务器.\n虽然我们能搭建基本的 git 服务器,但是想要做到 gith..."
+    }, {
+        "titile": "创git入门教程之github教程",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88297565",
+        "content": "github 教程\ngithub 是一个基于 git 的代码托管平台,是平时工作学习的好帮手,学会如何用好 github 网站能够帮助我们更好分享代码或者与其他开发人员合作.\n\n注册 github 账号\n首先准备好邮箱和密码,然后在 github 官网注册新账号,和大多数网站类似的注册流程,唯一注..."
+    }, {
+        "titile": "创git入门教程之初识git",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88231534",
+        "content": "git 是一个开源的分布式版本控制系统,用于敏捷高效地处理任何或小或大的项目.\n背景\n我们都知道,Linus 在1991年创建了开源的linux系统,随着不断发展壮大,目前已发展成为最大的服务器系统软件.\nLinus 虽然创建了 linux,但 linux 的发展壮大是靠全世界热心的志愿者参与贡献..."
+    }, {
+        "titile": "创git入门教程之1分钟快速了解git",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88231246",
+        "content": "git 是分布式版本控制系统,是文本文档管理的利器,是帮助你管理文件动态的好帮手.\n如果你曾经手动管理过文档,一定有这样的经历,比如你正在编辑文档,想删除某段落,又担心不久后可能会恢复,此时你可能会先备份然后再删除,或者想要修改某段落,几经修改后发现还是最初的比较好,这是就哭笑不得了…\n从最初的新..."
+    }, {
+        "titile": "创markdown快速入门",
+        "href": "https://blog.csdn.net/weixin_38171180/article/details/88220138",
+        "content": "markdown 不止是 HTML 的简化版,更重要的是 txt 的升级版,word 的轻量版,是笔记的最佳载体.\nmarkdown 作为一种简单的格式标记语言,不同于 txt 的无格式,不同于 HTML 的复杂标记,也不同于 word 的鼠标调整样式.\nmarkdown 通过简单的几个字符键入,..."
+    }],
+    "readCount": 10484,
+    "commentCount": 6
+}
