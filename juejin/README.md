@@ -1,6 +1,6 @@
 # 掘金
 
-## 上传图片 [/article/ajaxuploadimg](https://www.imooc.com/article/ajaxuploadimg)
+## 上传图片 [/upload](https://cdn-ms.juejin.im/v1/upload?bucket=gold-user-assets)
 
 ### 真实请求
 
