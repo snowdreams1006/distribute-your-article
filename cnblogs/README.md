@@ -22,7 +22,6 @@ curl -i -X POST \
  'https://upload.cnblogs.com/imageuploader/processupload'
 ```
 
-
 **响应数据**
 
 ```json
